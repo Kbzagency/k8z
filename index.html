@@ -148,6 +148,12 @@
     content: ""; position: absolute; inset: 0; z-index: 1;
     background: radial-gradient(120% 80% at 20% 0%, transparent 30%, var(--bg) 78%);
   }
+  .hero-net {
+    position: absolute; top: var(--nav-h); right: 0; z-index: 1; pointer-events: none;
+    width: min(72%, 780px); aspect-ratio: 16 / 10;
+    background: url("hero-network.png") top right / contain no-repeat;
+    opacity: .9;
+  }
 
   .hero-grid {
     position: relative; z-index: 2;
@@ -372,8 +378,10 @@
     padding: clamp(28px, 5vw, 48px); animation: modalIn .35s cubic-bezier(.2,.7,.2,1);
   }
   @keyframes modalIn { from { opacity:0; transform: translateY(20px) scale(.98);} to { opacity:1; transform:none;} }
-  .modal .close { position:absolute; top:18px; right:18px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line); font-size:20px; display:grid; place-items:center; }
-  .modal .close:hover { background: rgba(255,255,255,.06); }
+  .modal .close { position:absolute; z-index:5; top:18px; right:18px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:rgba(10,10,10,.55); backdrop-filter:blur(4px); font-size:20px; display:grid; place-items:center; }
+  .modal .close:hover { background: rgba(255,255,255,.12); }
+  .m-media { margin: calc(-1 * clamp(28px,5vw,48px)) calc(-1 * clamp(28px,5vw,48px)) 22px; border-radius: var(--r-xl) var(--r-xl) 0 0; overflow: hidden; line-height: 0; position: relative; z-index: 1; }
+  .m-media img { width: 100%; height: clamp(150px,30vw,210px); object-fit: cover; display: block; }
   .modal h3 { font-family: var(--font-display); font-size: clamp(2rem,6vw,3rem); letter-spacing:1px; margin-bottom: 10px; }
   .modal .mono { display:block; margin-bottom: 18px; }
   .modal p { color: var(--text-dim); margin-bottom: 14px; }
@@ -627,6 +635,7 @@
       </g>
     </svg>
   </div>
+  <div class="hero-net" aria-hidden="true"></div>
 
   <div class="wrap hero-grid">
     <div class="hero-copy">
@@ -807,6 +816,7 @@
   <div class="backdrop" onclick="closePillar()"></div>
   <div class="panel">
     <button class="close" onclick="closePillar()" aria-label="Cerrar">×</button>
+    <div class="m-media" id="mMedia" hidden><img id="mMediaImg" alt="" loading="lazy"></div>
     <div class="m-nfc" aria-hidden="true">
       <span class="nfc-emit"><span class="nfc-ring"></span><span class="nfc-ring"></span><span class="nfc-chip"></span></span>
       <span class="nfc-text">NFC · Puerta de entrada</span>
@@ -891,6 +901,7 @@
       label: "01 / Experiencias",
       title: "EXPERIENCIAS",
       accent: "#C9A84C", accent2: "#E91E8C", accentRgb: "201,168,76", accent2Rgb: "233,30,140",
+      media: "nfc.jpg",
       desc: [
         "Basándonos en el uso de la tecnología <b>NFC</b> creamos <b>Experiencias K8Z</b>.",
         "Pensadas para que marcas con distintos públicos puedan tener un canal de comunicación genuino con su audiencia a través de los productos — y que los productos sean el canal donde escala su comunidad."
@@ -906,6 +917,7 @@
       label: "02 / Únicas",
       title: "ÚNICAS",
       accent: "#1B9ED3", accent2: "#7B3FC4", accentRgb: "27,158,211", accent2Rgb: "123,63,196",
+      media: "unicas.jpg",
       desc: "Branding y licencias de eventos irrepetibles. Dos modos según lo que necesites.",
       list: ["Branding: identidad de marca a medida", "Licencias y eventos: piezas con autenticidad única", "Edición limitada con trazabilidad"],
       highlight: "<b>El fin de la falsificación</b>Códigos K8Z cifrados e irreproducibles para productos que licencien su propiedad intelectual a productores en todo el mundo.",
@@ -915,6 +927,7 @@
       label: "03 / Verificables",
       title: "VERIFICABLES",
       accent: "#8EE63C", accent2: "#1B9ED3", accentRgb: "142,230,60", accent2Rgb: "27,158,211",
+      media: "verificables.jpg",
       desc: [
         "Sumate a K8Z y conectá productos originales con personas auténticas.",
         "<b>Cómo trabajamos:</b> nos contás tu marca y tu objetivo, diseñamos la experiencia phygital con identidad verificable y tecnología K8Z, y la activamos junto a vos — del concepto al producto verificado en la calle."
@@ -932,6 +945,10 @@
     var d = DATA[key]; if (!d) return;
     document.getElementById("mLabel").textContent = d.label;
     document.getElementById("mTitle").textContent = d.title;
+
+    var media = document.getElementById("mMedia"), mediaImg = document.getElementById("mMediaImg");
+    if (d.media) { mediaImg.src = d.media; media.hidden = false; }
+    else { media.hidden = true; mediaImg.removeAttribute("src"); }
 
     var desc = document.getElementById("mDesc");
     desc.innerHTML = "";
