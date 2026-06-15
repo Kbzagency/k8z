@@ -1,0 +1,6 @@
+.claude/
+node_modules/
+tunnel.log
+*.pptx
+HANDOFF_CLAUDE_CODE.md
+logo mundial k8z.png
