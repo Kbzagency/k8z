@@ -518,6 +518,18 @@
   .scr-cofounder p { margin-bottom: 14px; }
   .scr-emph { color: var(--text) !important; font-size: 1.08rem !important; border-left: 3px solid var(--gold); padding-left: 16px; }
 
+  /* contenido legal inyectado en overlay */
+  #legalContent { color: var(--text-dim); }
+  #legalContent .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+  #legalContent h1 { font-family: var(--font-display); font-size: clamp(2.4rem,7vw,3.6rem); letter-spacing: 1px; line-height: 1; margin: 10px 0 6px; color: var(--text); }
+  #legalContent .updated { color: var(--text-dim); font-size: .9rem; margin-bottom: 32px; }
+  #legalContent h2 { font-family: var(--font-display); font-size: clamp(1.4rem,4vw,1.9rem); letter-spacing: .5px; margin: 34px 0 12px; color: var(--text); }
+  #legalContent p, #legalContent li { color: var(--text-dim); font-size: 1rem; line-height: 1.7; margin-bottom: 12px; }
+  #legalContent ul { padding-left: 22px; }
+  #legalContent strong { color: var(--text); font-weight: 700; }
+  #legalContent a { color: var(--gold); }
+  #legalContent .note { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; background: rgba(201,168,76,.06); }
+
   /* ============================================================
      RESPONSIVE
      ============================================================ */
@@ -560,8 +572,8 @@
     <nav class="nav-links" id="navLinks">
       <a href="#pilares" data-spy="pilares">VERTICALES</a>
       <a href="#contacto" data-spy="contacto">CONTACTO</a>
-      <a href="privacidad.html">PRIVACIDAD</a>
-      <a href="terminos.html">TÉRMINOS</a>
+      <a href="privacidad.html" onclick="openLegal('privacidad'); return false;">PRIVACIDAD</a>
+      <a href="terminos.html" onclick="openLegal('terminos'); return false;">TÉRMINOS</a>
       <a href="#" class="btn btn-gold" onclick="openScreen(); return false;">CONOCER →</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Menú">
@@ -701,7 +713,7 @@
     </div>
     <div class="foot-bottom">
       <span class="mono">© 2026 K8Z · EVENTS CUP · WOW</span>
-      <span class="mono"><a href="terminos.html" style="color:inherit;">Términos</a> · <a href="privacidad.html" style="color:inherit;">Privacidad</a></span>
+      <span class="mono"><a href="terminos.html" style="color:inherit;" onclick="openLegal('terminos'); return false;">Términos</a> · <a href="privacidad.html" style="color:inherit;" onclick="openLegal('privacidad'); return false;">Privacidad</a></span>
     </div>
   </div>
 </footer>
@@ -758,6 +770,12 @@
       <a href="#pilares" class="btn btn-ghost" onclick="closeScreen()">VER VERTICALES</a>
     </div>
   </div>
+</div>
+
+<!-- ============================ PANTALLA LEGALES ============================ -->
+<div class="screen" id="legal" aria-hidden="true">
+  <button class="screen-close" onclick="closeLegal()" aria-label="Cerrar">×</button>
+  <div class="screen-inner"><div id="legalContent"></div></div>
 </div>
 
 <!-- ============================ MODAL ============================ -->
@@ -953,8 +971,34 @@
     document.body.style.overflow = "";
   };
 
+  window.openLegal = function (page) {
+    var ov = document.getElementById("legal");
+    var content = document.getElementById("legalContent");
+    fetch(page + ".html")
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        var main = doc.querySelector("main");
+        content.innerHTML = main ? main.innerHTML : "<p>No se pudo cargar el contenido.</p>";
+        ov.classList.add("open");
+        ov.setAttribute("aria-hidden", "false");
+        ov.scrollTop = 0;
+        document.body.style.overflow = "hidden";
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("open");
+      })
+      .catch(function () { window.location.href = page + ".html"; });
+    return false;
+  };
+  window.closeLegal = function () {
+    var ov = document.getElementById("legal");
+    ov.classList.remove("open");
+    ov.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { window.closePillar(); window.closeScreen(); }
+    if (e.key === "Escape") { window.closePillar(); window.closeScreen(); window.closeLegal(); }
   });
 })();
 </script>
