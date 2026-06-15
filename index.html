@@ -147,6 +147,7 @@
   .btn-ghost:hover { transform: translateY(-2px); background: rgba(201, 168, 76, 0.08); }
 
   .nav-toggle { display: none; }
+  .nav-cta-mobile { display: none; }
 
   /* ============================================================
      HERO
@@ -590,6 +591,8 @@
     .nav-links.open { transform: translateY(0); }
     .nav-links a { font-size: 26px; padding: 8px 0; }
     .nav-links .btn { align-self: flex-start; margin-top: 8px; }
+    .nav-links .cta-desktop { display: none; }
+    .nav-cta-mobile { display: inline-flex; margin-left: auto; margin-right: 12px; padding: 9px 16px; font-size: 16px; }
     .nav-toggle { display: grid; gap: 5px; width: 40px; height: 40px; place-content: center; }
     .nav-toggle span { display:block; width: 24px; height: 2px; background: var(--text); transition: .3s; }
     .nav-toggle.open span:nth-child(1){ transform: translateY(7px) rotate(45deg);}
@@ -624,8 +627,9 @@
       <a href="#contacto" data-spy="contacto">CONTACTO</a>
       <a href="privacidad.html" onclick="openLegal('privacidad'); return false;">PRIVACIDAD</a>
       <a href="terminos.html" onclick="openLegal('terminos'); return false;">TÉRMINOS</a>
-      <a href="#" class="btn btn-gold" onclick="openScreen(); return false;">CONOCER →</a>
+      <a href="#" class="btn btn-gold cta-desktop" onclick="openScreen(); return false;">CONOCER →</a>
     </nav>
+    <a href="#" class="btn btn-gold nav-cta-mobile" onclick="openScreen(); return false;">CONOCER →</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
