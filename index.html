@@ -290,10 +290,10 @@
     cursor: pointer; text-align: left;
   }
   .pillar::before { content:""; position:absolute; inset:0; opacity:0; transition: opacity .35s ease; }
-  .pillar:hover { transform: translateY(-6px); }
-  .pillar.p1:hover { border-color: var(--magenta); box-shadow: 0 18px 50px rgba(233,30,140,.18); }
-  .pillar.p2:hover { border-color: var(--cyan); box-shadow: 0 18px 50px rgba(27,158,211,.18); }
-  .pillar.p3:hover { border-color: var(--green); box-shadow: 0 18px 50px rgba(142,230,60,.18); }
+  .pillar:hover, .pillar.sel { transform: translateY(-6px); }
+  .pillar.p1:hover, .pillar.p1.sel { border-color: var(--magenta); box-shadow: 0 18px 50px rgba(233,30,140,.30); }
+  .pillar.p2:hover, .pillar.p2.sel { border-color: var(--cyan); box-shadow: 0 18px 50px rgba(27,158,211,.30); }
+  .pillar.p3:hover, .pillar.p3.sel { border-color: var(--green); box-shadow: 0 18px 50px rgba(142,230,60,.30); }
   .pillar .num { font-family: var(--font-mono); font-size: 12px; letter-spacing:.2em; }
   .p1 .num { color: var(--magenta); } .p2 .num { color: var(--cyan); } .p3 .num { color: var(--green); }
   .pillar h3 { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing:1px; margin: 18px 0 10px; }
@@ -714,19 +714,19 @@
       <p>Construimos el puente phygital entre marcas originales y personas reales. Cada pilar es una capa de valor verificable.</p>
     </div>
     <div class="pillars">
-      <button class="pillar p1" data-reveal onclick="openPillar('experiencias')">
+      <button class="pillar p1" data-reveal onclick="selectPillar(this,'experiencias')">
         <span class="num">01 / EXPERIENCIAS</span>
         <h3>EXPERIENCIAS</h3>
         <p>Activaciones phygital con las marcas de software y cultura que ya usás. Lo digital se vuelve tangible.</p>
         <span class="more">Ver más →</span>
       </button>
-      <button class="pillar p2" data-reveal data-delay="120" onclick="openPillar('unicas')">
+      <button class="pillar p2" data-reveal data-delay="120" onclick="selectPillar(this,'unicas')">
         <span class="num">02 / ÚNICAS</span>
         <h3>ÚNICAS</h3>
         <p>Branding y licencias de eventos irrepetibles. Cada momento, una pieza con su propia identidad.</p>
         <span class="more">Ver más →</span>
       </button>
-      <button class="pillar p3" data-reveal data-delay="240" onclick="openPillar('verificables')">
+      <button class="pillar p3" data-reveal data-delay="240" onclick="selectPillar(this,'verificables')">
         <span class="num">03 / VERIFICABLES</span>
         <h3>VERIFICABLES</h3>
         <p>Identidad digital verificada por marca. Sin falsos, sin dudas: autenticidad comprobable.</p>
@@ -968,6 +968,18 @@
   };
 
   var modal = document.getElementById("modal");
+  window.selectPillar = function (el, key) {
+    var noHover = window.matchMedia && window.matchMedia("(hover: none)").matches;
+    if (noHover) {
+      el.classList.add("sel");
+      setTimeout(function () {
+        window.openPillar(key);
+        setTimeout(function () { el.classList.remove("sel"); }, 350);
+      }, 260);
+    } else {
+      window.openPillar(key);
+    }
+  };
   window.openPillar = function (key) {
     var d = DATA[key]; if (!d) return;
     document.getElementById("mLabel").textContent = d.label;
