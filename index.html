@@ -199,6 +199,15 @@
   @keyframes hueFlow { from { background-position: 0% 50%; } to { background-position: 300% 50%; } }
   @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
+  .hero-quicknav { display: none; flex-wrap: wrap; gap: 8px; margin: 22px 0 4px; }
+  .hero-quicknav a {
+    font-family: var(--font-display); font-size: 15px; letter-spacing: 1px;
+    padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--line); color: var(--text-dim);
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .hero-quicknav a:hover { color: var(--text); border-color: var(--gold); }
+  .hero-quicknav .qn-cta { background: linear-gradient(135deg, var(--gold), #e7cf8a); color: #1a1407; border-color: transparent; }
+
   .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin: 34px 0 14px; }
   .hero-rule { height: 4px; width: 120px; border-radius: 4px; background: linear-gradient(90deg, var(--purple), var(--magenta)); margin-bottom: 30px; }
 
@@ -600,6 +609,7 @@
     .nav-toggle.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg);}
 
     .hero { min-height: auto; align-items: flex-start; padding-bottom: 48px; }
+    .hero-quicknav { display: flex; }
     .hero-grid { grid-template-columns: 1fr; gap: 18px; }
     .hero-visual { order: -1; min-height: 300px; margin-top: 8px; }
     body::after { display: none; }
@@ -672,6 +682,14 @@
         <span>CON PERSONAS</span>
         <span>AUTÉNTICAS.</span>
       </h1>
+
+      <nav class="hero-quicknav" data-reveal data-delay="80">
+        <a href="#pilares">VERTICALES</a>
+        <a href="#contacto">CONTACTO</a>
+        <a href="privacidad.html" onclick="openLegal('privacidad'); return false;">PRIVACIDAD</a>
+        <a href="terminos.html" onclick="openLegal('terminos'); return false;">TÉRMINOS</a>
+        <a href="#" class="qn-cta" onclick="openScreen(); return false;">CONOCER →</a>
+      </nav>
 
       <div class="hero-cta" data-reveal data-delay="120">
         <a href="#pilares" class="btn btn-gold">DESCUBRÍ YA →</a>
