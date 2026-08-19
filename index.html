@@ -623,10 +623,8 @@
   .partners-list { margin: 8px 0 40px; }
   .partners-h { font-family: var(--font-display); font-size: clamp(1.4rem,4vw,2rem); letter-spacing: 1px; margin-bottom: 16px; }
   .partner-card { display: flex; gap: 18px; align-items: center; padding: 18px; border: 1px solid var(--line); border-radius: var(--r-lg); background: rgba(255,255,255,.03); }
-  .partner-logo { flex: none; width: 92px; height: 92px; border-radius: 50%; overflow: hidden; background: #f3efe4; display: grid; place-items: center; }
-  .partner-logo img { width: 100%; height: 100%; object-fit: cover; }
-  .partner-logo.noimg { background: linear-gradient(135deg, var(--gold), #e7cf8a); }
-  .partner-logo.noimg::after { content: "C"; font-family: var(--font-display); font-size: 40px; color: #1a1407; }
+  .partner-logo { flex: none; width: 104px; height: 104px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; }
+  .partner-logo svg, .partner-logo img { width: 100%; height: 100%; display: block; }
   .partner-info h4 { font-family: var(--font-body); font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
   .partner-info h4 span { color: var(--gold); font-weight: 500; }
   .partner-info p { color: var(--text-dim); font-size: .95rem; line-height: 1.55; }
@@ -1201,7 +1199,7 @@
       extra: `<div class="partners-list">
         <h3 class="partners-h">Socios estratégicos</h3>
         <div class="partner-card">
-          <span class="partner-logo"><img src="consulado.png" alt="Consulado Servicios Textiles by Kattegat" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></span>
+          <span class="partner-logo"><svg viewBox="0 0 100 100" role="img" aria-label="Consulado Servicios Textiles by Kattegat" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="csgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#efd694"/><stop offset=".45" stop-color="#9c7c34"/><stop offset=".55" stop-color="#c8a24a"/><stop offset="1" stop-color="#efd694"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#csgold)"/><circle cx="50" cy="50" r="44.5" fill="#ece7d9"/><text x="50" y="47" text-anchor="middle" fill="#1f2b4d" font-family="Arial, Helvetica, sans-serif" font-size="11.5" font-weight="700" letter-spacing="1">CONSULADO</text><text x="50" y="58" text-anchor="middle" fill="#1f2b4d" font-family="Arial, Helvetica, sans-serif" font-size="6.5" letter-spacing="1.1">SERVICIOS TEXTILES</text><line x1="24" y1="64.5" x2="58" y2="64.5" stroke="#1f2b4d" stroke-width="0.7"/><text x="76" y="67.6" text-anchor="end" fill="#1f2b4d" font-family="Arial, Helvetica, sans-serif" font-size="6" letter-spacing="0.3"><tspan font-weight="400">BY </tspan><tspan font-weight="700">KATTEGAT</tspan></text></svg></span>
           <div class="partner-info">
             <h4>Consulado Servicios Textiles <span>by Kattegat</span></h4>
             <p>Socio estratégico de K8Z y nuestro <b>enlace directo con el ecosistema de la moda</b>. A través de Consulado conectamos con marcas, productores y <b>clientes</b> de la industria textil, llevando la tecnología phygital, la trazabilidad y los pasaportes digitales K8Z al mundo de la indumentaria.</p>
