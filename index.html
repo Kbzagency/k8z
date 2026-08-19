@@ -620,6 +620,18 @@
   }
   .scr-lead { color: var(--text-dim); font-size: clamp(1rem,2.4vw,1.2rem); line-height: 1.6; max-width: 62ch; margin-bottom: 24px; }
   .info-soon { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; }
+  .partners-list { margin: 8px 0 40px; }
+  .partners-h { font-family: var(--font-display); font-size: clamp(1.4rem,4vw,2rem); letter-spacing: 1px; margin-bottom: 16px; }
+  .partner-card { display: flex; gap: 18px; align-items: center; padding: 18px; border: 1px solid var(--line); border-radius: var(--r-lg); background: rgba(255,255,255,.03); }
+  .partner-logo { flex: none; width: 92px; height: 92px; border-radius: 50%; overflow: hidden; background: #f3efe4; display: grid; place-items: center; }
+  .partner-logo img { width: 100%; height: 100%; object-fit: cover; }
+  .partner-logo.noimg { background: linear-gradient(135deg, var(--gold), #e7cf8a); }
+  .partner-logo.noimg::after { content: "C"; font-family: var(--font-display); font-size: 40px; color: #1a1407; }
+  .partner-info h4 { font-family: var(--font-body); font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
+  .partner-info h4 span { color: var(--gold); font-weight: 500; }
+  .partner-info p { color: var(--text-dim); font-size: .95rem; line-height: 1.55; }
+  .partner-info b { color: var(--text); font-weight: 600; }
+  @media (max-width:560px){ .partner-card { flex-direction: column; text-align: center; } }
   .scr-block { margin-bottom: 44px; }
   .scr-block .mono { display: block; margin-bottom: 12px; }
   .scr-block h3 { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,2.4rem); letter-spacing: 1px; margin-bottom: 14px; }
@@ -1186,6 +1198,16 @@
     partners: {
       label: "K8Z · Partners", title: "PARTNERS",
       desc: "Sumá tu marca, producto o negocio al ecosistema K8Z. Juntos diseñamos experiencias phygital, licenciamos productos originales y activamos comunidades reales alrededor de lo auténtico.",
+      extra: `<div class="partners-list">
+        <h3 class="partners-h">Socios estratégicos</h3>
+        <div class="partner-card">
+          <span class="partner-logo"><img src="consulado.png" alt="Consulado Servicios Textiles by Kattegat" loading="lazy" onerror="this.parentNode.classList.add('noimg')"></span>
+          <div class="partner-info">
+            <h4>Consulado Servicios Textiles <span>by Kattegat</span></h4>
+            <p>Socio estratégico de K8Z y nuestro <b>enlace directo con el ecosistema de la moda</b>. A través de Consulado conectamos con marcas, productores y <b>clientes</b> de la industria textil, llevando la tecnología phygital, la trazabilidad y los pasaportes digitales K8Z al mundo de la indumentaria.</p>
+          </div>
+        </div>
+      </div>`,
       cta: "Hola%20K8Z%2C%20quiero%20ser%20Partner"
     },
     marcas: {
@@ -1203,7 +1225,7 @@
     var d = INFO[key]; if (!d) return false;
     document.getElementById("infoLabel").textContent = d.label;
     document.getElementById("infoTitle").textContent = d.title;
-    document.getElementById("infoDesc").innerHTML = '<p class="scr-lead">' + d.desc + '</p><p class="info-soon">Próximamente sumamos más contenido a esta sección.</p>';
+    document.getElementById("infoDesc").innerHTML = '<p class="scr-lead">' + d.desc + '</p>' + (d.extra || '<p class="info-soon">Próximamente sumamos más contenido a esta sección.</p>');
     document.getElementById("infoCta").href = "https://wa.me/5491157564835?text=" + d.cta;
     infoEl.classList.add("open");
     infoEl.setAttribute("aria-hidden", "false");
