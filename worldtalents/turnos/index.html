@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Turnos — 0800 Barber</title>
+<meta name="theme-color" content="#0A0A0A" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     el3studio / 0800 BARBER — dark neón graffiti · chrome gótico
+     ============================================================ */
+  :root{
+    --bg:#0A0A0A; --panel:#121216; --panel2:#17171d;
+    --line:#26262e; --line2:#33333d;
+    --ink:#F2F2F5; --muted:#8b8b98;
+    --pink:#FF2BD6; --cyan:#00E5FF; --green:#39FF14; --yellow:#FFE838;
+    --radius:18px;
+    --chrome:linear-gradient(180deg,#ffffff 0%,#c9cdd8 30%,#6a7080 52%,#a8adbb 62%,#e9ebf2 100%);
+    --metal:conic-gradient(from 200deg,#3a3a44,#babfcc,#55555f,#e8eaf1,#44444e,#9aa0ae,#3a3a44);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);
+    font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding-bottom:48px;position:relative}
+  img{max-width:100%;display:block}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* ---- grain overlay (identidad KBC) ---- */
+  body::after{content:"";position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.06;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---- display gótico cromado ---- */
+  .blackletter{font-family:'Pirata One',cursive;font-weight:400;letter-spacing:.02em;
+    background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 8px rgba(0,229,255,.35)) drop-shadow(0 0 24px rgba(255,43,214,.25))}
+
+  /* ---- Top bar ---- */
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.88);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 18px;padding-top:calc(12px + env(safe-area-inset-top))}
+  .topbar .brand{display:flex;align-items:center;gap:10px}
+  .topbar .brand .name{font-size:24px;line-height:1}
+  .topbar .wt{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);
+    border:1px solid var(--line2);border-radius:999px;padding:5px 10px}
+  .topbar .wt b{color:var(--green);font-weight:400}
+  .topright{display:flex;align-items:center;gap:10px}
+  .poste{font-size:20px;line-height:1;width:38px;height:38px;border-radius:10px;
+    border:1px solid var(--line2);background:var(--panel2);display:grid;place-items:center;
+    transition:all .15s;filter:grayscale(.6) opacity(.7)}
+  .poste:hover{filter:none;border-color:var(--cyan);
+    box-shadow:0 0 0 1px var(--cyan),0 0 16px rgba(0,229,255,.35)}
+  .poste.authed{filter:none;border-color:var(--green);
+    box-shadow:0 0 0 1px var(--green),0 0 18px rgba(57,255,20,.45);
+    animation:posteglow 2.4s ease-in-out infinite}
+  @keyframes posteglow{0%,100%{box-shadow:0 0 0 1px var(--green),0 0 10px rgba(57,255,20,.35)}
+    50%{box-shadow:0 0 0 1px var(--green),0 0 22px rgba(57,255,20,.65)}}
+
+  /* modal acceso staff */
+  .modal{position:fixed;inset:0;z-index:200;background:rgba(5,5,7,.82);backdrop-filter:blur(6px);
+    display:grid;place-items:center;padding:20px}
+  .modal .box{max-width:360px;width:100%;background:var(--panel);border:1px solid var(--line2);
+    border-radius:var(--radius);padding:26px 22px;text-align:center;
+    box-shadow:0 0 60px rgba(0,0,0,.6)}
+  .modal .box .ic{font-size:44px;margin-bottom:8px}
+  .modal .box h3{font-size:26px;margin-bottom:8px}
+  .modal .box p{color:var(--muted);font-size:13.5px;line-height:1.55;margin-bottom:16px}
+  .modal .box p b{color:var(--ink)}
+  .modal .box.err h3{color:var(--pink);text-shadow:0 0 14px rgba(255,43,214,.4)}
+  .modal .box.ok h3{color:var(--green);text-shadow:0 0 14px rgba(57,255,20,.5)}
+  .modal .role{display:inline-flex;align-items:center;gap:8px;margin:6px 0 16px;
+    border:1px solid var(--green);color:var(--green);border-radius:999px;padding:7px 16px;font-weight:600;
+    text-shadow:0 0 10px rgba(57,255,20,.5)}
+  .modal .close{margin-top:12px;color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.1em}
+
+  /* ---- Stepper ---- */
+  .steps{background:rgba(10,10,10,.92);border-bottom:1px solid var(--line);
+    display:flex;gap:4px;overflow-x:auto;padding:0 12px;-webkit-overflow-scrolling:touch}
+  .steps::-webkit-scrollbar{display:none}
+  .step{flex:0 0 auto;padding:15px 10px 11px;font-size:12.5px;font-weight:600;color:var(--muted);
+    white-space:nowrap;border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;
+    text-transform:uppercase;letter-spacing:.06em}
+  .step.done{color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.5)}
+  .step.active{color:var(--green);border-bottom-color:var(--green);
+    text-shadow:0 0 8px rgba(57,255,20,.6)}
+  .step .ic{font-size:13px}
+
+  /* ---- Layout ---- */
+  .wrap{max-width:860px;margin:0 auto;padding:30px 16px}
+  .eyebrow{text-align:center;color:var(--muted);letter-spacing:.34em;font-size:11px;font-weight:500;text-transform:uppercase}
+  h1.title{text-align:center;font-size:44px;margin:8px 0 30px;line-height:1.05}
+
+  /* ---- Cards (servicios / barberos) — marco chrome + glow ---- */
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(2,1fr)}
+  @media(max-width:560px){.grid{grid-template-columns:1fr;gap:18px}}
+  .card{position:relative;border-radius:var(--radius);padding:2px;background:var(--metal);
+    text-align:center;transition:transform .15s ease,filter .15s ease;
+    filter:drop-shadow(0 0 0 rgba(0,0,0,0))}
+  .card::before{content:"";position:absolute;inset:-2px;border-radius:calc(var(--radius) + 2px);
+    background:linear-gradient(120deg,var(--pink),var(--cyan),var(--green),var(--yellow));
+    opacity:.28;filter:blur(14px);z-index:-1;transition:opacity .15s}
+  .card:hover{transform:translateY(-3px)}
+  .card:hover::before{opacity:.65}
+  .card:active{transform:translateY(0)}
+  .card .in{background:var(--panel);border-radius:calc(var(--radius) - 2px);overflow:hidden}
+  .card .photo{aspect-ratio:1/1;background:
+      radial-gradient(120% 90% at 20% 10%,rgba(255,43,214,.16),transparent 55%),
+      radial-gradient(120% 90% at 85% 85%,rgba(0,229,255,.14),transparent 55%),
+      var(--panel2);
+    display:grid;place-items:center;font-size:52px}
+  .card .photo img{width:100%;height:100%;object-fit:cover}
+  .card .body{padding:16px 12px 20px;border-top:1px solid var(--line)}
+  .card .name{font-family:'Pirata One',cursive;font-size:28px;line-height:1;
+    background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 1px 0 #000)}
+  .card .price{color:var(--green);font-size:14px;font-weight:600;margin-top:8px;
+    text-shadow:0 0 12px rgba(57,255,20,.45)}
+  .card .meta{color:var(--muted);font-size:12.5px;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:5px}
+
+  /* ---- Panel ---- */
+  .panel{max-width:480px;margin:0 auto;background:var(--panel);border:1px solid var(--line2);
+    border-radius:var(--radius);padding:18px;
+    box-shadow:0 0 0 1px rgba(255,255,255,.02),0 0 40px rgba(0,229,255,.05)}
+  .field{margin:12px 0}
+  .field label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;
+    text-transform:uppercase;letter-spacing:.14em}
+  .field input{width:100%;padding:13px 14px;border:1px solid var(--line2);border-radius:12px;
+    font:inherit;background:var(--panel2);color:var(--ink)}
+  .field input::placeholder{color:#565664}
+  .field input:focus{outline:none;border-color:var(--cyan);
+    box-shadow:0 0 0 1px var(--cyan),0 0 18px rgba(0,229,255,.25)}
+
+  /* ---- Botón pastilla chrome (estilo TURNOS/MERCH) ---- */
+  .btn{position:relative;display:block;width:100%;padding:3px;border-radius:999px;
+    background:var(--metal);margin-top:14px;transition:transform .15s}
+  .btn::before{content:"";position:absolute;inset:-3px;border-radius:999px;z-index:-1;
+    background:linear-gradient(100deg,var(--pink),var(--cyan) 45%,var(--green));
+    opacity:.5;filter:blur(16px);transition:opacity .15s}
+  .btn:hover{transform:translateY(-1px)} .btn:hover::before{opacity:.9}
+  .btn>span{display:block;background:#0d0d11;border-radius:999px;padding:14px 18px;
+    font-family:'Pirata One',cursive;font-size:24px;letter-spacing:.06em;line-height:1;
+    background-image:none;color:#fff}
+  .btn>span .chrome{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 1px 0 #000)}
+  .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+  .btn[disabled]::before{opacity:.1}
+  a.btn{text-decoration:none;text-align:center}
+  .btn.merch::before{background:linear-gradient(100deg,var(--pink),var(--yellow) 55%,var(--pink));opacity:.55}
+  .btn.merch:hover::before{opacity:.95}
+
+  /* ---- Fecha / hora ---- */
+  .daystrip{display:flex;gap:8px;overflow-x:auto;padding:14px 4px;-webkit-overflow-scrolling:touch}
+  .daystrip::-webkit-scrollbar{display:none}
+  .daychip{flex:0 0 auto;min-width:62px;text-align:center;border:1px solid var(--line2);border-radius:12px;
+    padding:9px 6px;background:var(--panel2);color:var(--ink);font-weight:600}
+  .daychip small{display:block;color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+  .daychip.sel{border-color:var(--green);color:var(--green);
+    box-shadow:0 0 0 1px var(--green),0 0 18px rgba(57,255,20,.35);text-shadow:0 0 8px rgba(57,255,20,.6)}
+  .daychip.sel small{color:rgba(57,255,20,.7)}
+  .slots{margin-top:8px}
+  .slotrow{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .slotrow:last-child{border-bottom:0}
+  .slotrow .hr{width:52px;color:var(--muted);font-size:13px}
+  .slot{border:1px solid var(--green);color:var(--green);border-radius:10px;padding:9px 16px;font-weight:600;
+    display:inline-flex;align-items:center;gap:6px;font-size:14px;background:rgba(57,255,20,.04);
+    text-shadow:0 0 8px rgba(57,255,20,.4);transition:all .12s}
+  .slot:hover{background:var(--green);color:#06110a;text-shadow:none;
+    box-shadow:0 0 22px rgba(57,255,20,.5)}
+  .slot[disabled]{border-color:var(--line2);color:#4a4a56;cursor:not-allowed;background:none;text-shadow:none}
+  .slot[disabled]:hover{box-shadow:none}
+
+  /* ---- Confirmación ---- */
+  .summary{border:1px solid var(--line2);border-radius:var(--radius);overflow:hidden;max-width:520px;margin:0 auto;
+    background:var(--panel)}
+  .summary .row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:15px 16px;border-bottom:1px solid var(--line);font-weight:600}
+  .summary .row:last-child{border-bottom:0}
+  .summary .row .pay{display:flex;gap:14px;font-weight:600;color:var(--green);
+    text-shadow:0 0 10px rgba(57,255,20,.4)}
+  .confirmbtn{max-width:520px;margin:18px auto 0}
+
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--cyan);font-weight:600;
+    font-size:13px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.1em;
+    text-shadow:0 0 10px rgba(0,229,255,.4)}
+  .success{max-width:460px;margin:0 auto;text-align:center;background:var(--panel);
+    border:1px solid var(--line2);border-radius:var(--radius);padding:36px 22px;
+    box-shadow:0 0 60px rgba(57,255,20,.07)}
+  .success .big{width:78px;height:78px;border-radius:50%;border:2px solid var(--green);color:var(--green);
+    display:grid;place-items:center;font-size:38px;margin:0 auto 18px;
+    box-shadow:0 0 30px rgba(57,255,20,.4),inset 0 0 20px rgba(57,255,20,.15);
+    text-shadow:0 0 12px rgba(57,255,20,.8)}
+  .success h2{font-size:36px;margin-bottom:10px}
+  .success p{color:var(--muted);font-size:14px;line-height:1.6}
+  .success b{color:var(--ink)}
+
+  /* ---- reduced motion (regla KBC, no negociable) ---- */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{transition:none!important;animation:none!important}
+    .card:hover,.btn:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand"><span class="name blackletter" id="brandName">Turnos</span></div>
+    <div class="topright">
+      <span class="wt">● <b>World Talents</b></span>
+      <button class="poste" id="staffAccess" title="Acceso staff" aria-label="Acceso staff">💈</button>
+    </div>
+  </div>
+
+  <nav class="steps" id="steps"></nav>
+
+  <main class="wrap" id="app"></main>
+
+  <script src="shop.config.js"></script>
+  <script>
+  (function(){
+    const S = window.SHOP;
+    const money = n => S.currency + " " + new Intl.NumberFormat(S.locale).format(n);
+    const el = document.getElementById('app');
+    const $steps = document.getElementById('steps');
+
+    // ---- estado ----
+    const st = { step:1, serviceId:null, barberId:null,
+                 client:{ name:"", phone:"", forOther:false },
+                 date:null, time:null };
+
+    // precio "desde" de un servicio = mínimo entre barberos
+    const serviceFrom = sid => Math.min(...S.barbers.map(b => b.prices[sid] ?? Infinity));
+    const svc = () => S.services.find(s=>s.id===st.serviceId);
+    const brb = () => S.barbers.find(b=>b.id===st.barberId);
+    const finalPrice = () => brb() ? brb().prices[st.serviceId] : 0;
+
+    // ---- header ----
+    document.getElementById('brandName').textContent = S.name;
+
+    /* ============================================================
+       ACCESO STAFF — el chip World Talents (nfcuid) es la credencial
+       ============================================================ */
+    (function staffGate(){
+      const $poste = document.getElementById('staffAccess');
+      const admins = S.admins || {};
+      const params = new URLSearchParams(location.search);
+      // el nfcuid puede venir por URL (al escanear el chip) o guardado de una sesión previa
+      const nfcuid = (params.get('nfcuid') || localStorage.getItem('wt_nfcuid') || "").toLowerCase();
+      const role = admins[nfcuid] || null;
+      if(role) localStorage.setItem('wt_nfcuid', nfcuid); // recordar credencial válida
+
+      const roleLabel = r => r==='owner' ? '👑 Dueño · 0800'
+        : '💈 ' + ((S.barbers.find(b=>b.id===r)||{}).name || r);
+
+      if(role){ $poste.classList.add('authed'); $poste.title = "Entrar al panel · "+roleLabel(role); }
+
+      function modal(html){
+        const m=document.createElement('div'); m.className='modal';
+        m.innerHTML=`<div class="box">${html}</div>`;
+        m.addEventListener('click',e=>{ if(e.target===m||e.target.dataset.close!==undefined) m.remove(); });
+        document.body.appendChild(m); return m;
+      }
+
+      $poste.onclick=()=>{
+        if(role){
+          // credencial válida → al panel, con su permiso, sin volver a pedir nada
+          modal(`<div class="ic">💈</div><h3 class="blackletter" style="color:var(--green)">Acceso autorizado</h3>
+            <div class="role">${roleLabel(role)}</div>
+            <p>Entrás al panel con tu permiso de <b>${role==='owner'?'dueño':'empleado'}</b>.</p>
+            <button class="btn" id="goAdmin"><span><span class="chrome">Abrir panel</span></span></button>
+            <button class="close" data-close>Cancelar</button>`);
+          document.getElementById('goAdmin').onclick=()=>{
+            location.href = 'admin/?nfcuid='+encodeURIComponent(nfcuid);
+          };
+        } else {
+          modal(`<div class="ic">🔒</div><h3 class="blackletter">Acceso restringido</h3>
+            <p>El panel de gestión es solo para el <b>staff de 0800 Barber</b>.<br>
+            Se entra con tu <b>chip World Talents</b> autorizado (dueño o empleado).</p>
+            <p style="font-size:12px">Si sos del equipo, escaneá tu chip World Talents para ingresar.</p>
+            <button class="close" data-close>Entendido</button>`);
+        }
+      };
+    })();
+
+    const STEP_DEFS = [
+      { n:1, ic:"✂", label:"Servicio",    value:()=> svc()?.name },
+      { n:2, ic:"👤", label:"¿Con quién?", value:()=> brb()?.name },
+      { n:3, ic:"🧑", label:"¿Para quién?",value:()=> st.client.name },
+      { n:4, ic:"📅", label:"¿Cuándo?",    value:()=> st.time ? fmtDate(st.date)+" "+st.time : null },
+    ];
+    function renderSteps(){
+      $steps.innerHTML = STEP_DEFS.map(d=>{
+        const done = d.value() && st.step>d.n;
+        const active = st.step===d.n;
+        const text = (done||active) && d.value() ? d.value() : d.label;
+        return `<button class="step ${active?'active':''} ${done?'done':''}" data-goto="${d.n}">
+          <span class="ic">${d.ic}</span>${text}</button>`;
+      }).join('');
+      $steps.querySelectorAll('[data-goto]').forEach(b=>{
+        b.onclick=()=>{ const n=+b.dataset.goto; if(n<st.step){ st.step=n; render(); } };
+      });
+    }
+
+    // ---- fechas ----
+    const DÍAS=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+    const MESES_L=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    const pad=n=>String(n).padStart(2,"0");
+    const fmtDate = d => `${DÍAS[d.getDay()]} ${pad(d.getDate())}/${pad(d.getMonth()+1)}`;
+    const fmtDateLong = d => `${pad(d.getDate())} de ${MESES_L[d.getMonth()]} de ${d.getFullYear()}`;
+    const sameDay=(a,b)=>a.toDateString()===b.toDateString();
+
+    function nextDays(n){
+      const out=[]; const t=new Date(); t.setHours(0,0,0,0);
+      for(let i=0;i<n;i++){ const d=new Date(t); d.setDate(t.getDate()+i);
+        if((S.hours[d.getDay()]||[]).length) out.push(d); }
+      return out;
+    }
+    function slotsFor(date){
+      const ranges = S.hours[date.getDay()]||[];
+      const dur = svc()?.duration || 60;
+      const now = new Date();
+      const out=[];
+      ranges.forEach(([a,b])=>{
+        let [h,m]=a.split(":").map(Number);
+        const [eh,em]=b.split(":").map(Number);
+        let cur=h*60+m; const end=eh*60+em;
+        while(cur+dur<=end){
+          const hh=Math.floor(cur/60), mm=cur%60;
+          const label=`${pad(hh)}:${pad(mm)}`;
+          const slotDate=new Date(date); slotDate.setHours(hh,mm,0,0);
+          out.push({ label, past: sameDay(date,now) && slotDate<=now });
+          cur+=dur;
+        }
+      });
+      return out;
+    }
+
+    /* ============================ RENDER ============================ */
+    function render(){
+      renderSteps();
+      window.scrollTo({top:0});
+      if(st.step===1) return renderServices();
+      if(st.step===2) return renderBarbers();
+      if(st.step===3) return renderForWhom();
+      if(st.step===4) return renderWhen();
+      if(st.step===5) return renderConfirm();
+      if(st.step===6) return renderSuccess();
+    }
+
+    function head(t){ return `<div class="eyebrow">${S.tagline}</div><h1 class="title blackletter">${t}</h1>`; }
+    function backBtn(to){ return `<button class="back" data-back="${to}">‹ Volver</button>`; }
+    function wireBack(){ el.querySelectorAll('[data-back]').forEach(b=> b.onclick=()=>{ st.step=+b.dataset.back; render(); }); }
+
+    function photo(img,fallback){
+      // si la imagen falta o falla la carga, cae al placeholder de emoji
+      return img ? `<div class="photo"><img src="${img}" alt="" loading="lazy"
+                      onerror="this.parentElement.textContent='${fallback}'"></div>`
+                 : `<div class="photo">${fallback}</div>`;
+    }
+
+    function renderServices(){
+      el.innerHTML = head("Elegí tu servicio") + `<div class="grid">` +
+        S.services.map(s=>`
+          <button class="card" data-svc="${s.id}"><div class="in">
+            ${photo(s.img,"✂️")}
+            <div class="body">
+              <div class="name">${s.name}</div>
+              <div class="price">desde ${money(serviceFrom(s.id))}</div>
+              <div class="meta">🕐 ${s.duration} min</div>
+            </div>
+          </div></button>`).join('') + `</div>`;
+      el.querySelectorAll('[data-svc]').forEach(b=> b.onclick=()=>{
+        st.serviceId=b.dataset.svc; st.barberId=null; st.step=2; render(); });
+    }
+
+    function renderBarbers(){
+      el.innerHTML = backBtn(1) + head("¿Con quién?") + `<div class="grid">` +
+        S.barbers.map(b=>`
+          <button class="card" data-brb="${b.id}"><div class="in">
+            ${photo(b.img,"💈")}
+            <div class="body">
+              <div class="name">${b.name}</div>
+              <div class="price">${money(b.prices[st.serviceId])}</div>
+            </div>
+          </div></button>`).join('') + `</div>`;
+      el.querySelectorAll('[data-brb]').forEach(b=> b.onclick=()=>{
+        st.barberId=b.dataset.brb; st.step=3; render(); });
+      wireBack();
+    }
+
+    function renderForWhom(){
+      const c=st.client;
+      el.innerHTML = backBtn(2) + head("¿Para quién?") + `
+        <div class="panel">
+          <div class="field"><label>Nombre</label>
+            <input id="cname" placeholder="Tu nombre" value="${c.name}"></div>
+          <div class="field"><label>WhatsApp / Teléfono</label>
+            <input id="cphone" inputmode="tel" placeholder="Ej 341 555 1234" value="${c.phone}"></div>
+          <button class="btn" id="continuar" ${c.name&&c.phone?'':'disabled'}><span><span class="chrome">Continuar</span></span></button>
+        </div>`;
+      const name=el.querySelector('#cname'), phone=el.querySelector('#cphone'), cont=el.querySelector('#continuar');
+      const sync=()=>{ c.name=name.value.trim(); c.phone=phone.value.trim();
+        cont.disabled=!(c.name&&c.phone); };
+      name.oninput=sync; phone.oninput=sync;
+      cont.onclick=()=>{ if(c.name&&c.phone){ st.step=4; render(); } };
+      wireBack();
+    }
+
+    function renderWhen(){
+      const days=nextDays(30);
+      if(!st.date && days.length) st.date=days[0];
+      el.innerHTML = backBtn(3) + head("¿Para cuándo?") + `
+        <div class="panel" style="max-width:640px">
+          <div class="daystrip" id="strip">${days.map(d=>`
+            <button class="daychip ${st.date&&sameDay(d,st.date)?'sel':''}" data-day="${d.toISOString()}">
+              ${pad(d.getDate())}<small>${DÍAS[d.getDay()]}</small></button>`).join('')}
+          </div>
+          <div class="slots" id="slots"></div>
+        </div>`;
+      el.querySelectorAll('[data-day]').forEach(b=> b.onclick=()=>{
+        st.date=new Date(b.dataset.day); st.time=null; renderWhen(); });
+      renderSlots();
+      wireBack();
+    }
+    function renderSlots(){
+      const box=el.querySelector('#slots'); if(!box) return;
+      const slots=slotsFor(st.date);
+      if(!slots.length){ box.innerHTML=`<p style="text-align:center;color:var(--muted);padding:20px">Sin turnos disponibles este día.</p>`; return; }
+      box.innerHTML = slots.map(s=>`
+        <div class="slotrow"><div class="hr">${parseInt(s.label)} hs</div>
+          <button class="slot" data-time="${s.label}" ${s.past?'disabled':''}>🕐 ${s.label}</button>
+        </div>`).join('');
+      box.querySelectorAll('[data-time]').forEach(b=> b.onclick=()=>{
+        if(b.disabled) return; st.time=b.dataset.time; st.step=5; render(); });
+    }
+
+    function renderConfirm(){
+      const payIcons={ "Efectivo":"💵","Transferencia":"🏦","Tarjeta":"💳" };
+      el.innerHTML = backBtn(4) + head("Confirmá el turno") + `
+        <div class="summary">
+          <div class="row"><span>📅 ${fmtDateLong(st.date)}</span></div>
+          <div class="row"><span>🕐 ${st.time} hs</span></div>
+          <div class="row"><span>${svc().name}</span></div>
+          <div class="row"><span>con ${brb().name}</span></div>
+          <div class="row"><span>Para</span><span>${st.client.name}</span></div>
+          <div class="row"><span>Precio</span>
+            <span class="pay">${S.payments.map(p=>`<span>${payIcons[p]||"•"} ${money(finalPrice())}</span>`).join('')}</span>
+          </div>
+        </div>
+        <div class="confirmbtn"><button class="btn" id="confirm"><span><span class="chrome">Confirmar turno</span></span></button></div>`;
+      el.querySelector('#confirm').onclick=confirmToWhatsApp;
+      wireBack();
+    }
+
+    function confirmToWhatsApp(){
+      const msg =
+`¡Hola ${S.name}! Quiero reservar un turno 🗓️
+• Servicio: ${svc().name}
+• Con: ${brb().name}
+• Fecha: ${fmtDate(st.date)} (${fmtDateLong(st.date)})
+• Hora: ${st.time} hs
+• A nombre de: ${st.client.name}${st.client.forOther?" (para otra persona)":""}
+• Tel: ${st.client.phone}
+• Precio: ${money(finalPrice())}`;
+      const url = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+      st.step=6; render();
+    }
+
+    function renderSuccess(){
+      el.innerHTML = `
+        <div class="success">
+          <div class="big">✓</div>
+          <h2 class="blackletter">¡Turno enviado!</h2>
+          <p>Te abrimos WhatsApp con el detalle de tu turno para <b>${fmtDate(st.date)} ${st.time} hs</b>
+             con <b>${brb().name}</b>.<br>Enviá el mensaje para que ${S.name} lo confirme.</p>
+          <button class="btn" id="again" style="margin-top:22px"><span><span class="chrome">Reservar otro turno</span></span></button>
+          ${S.merchUrl ? `<a class="btn merch" href="${S.merchUrl}" target="_blank" rel="noopener"><span>🧢 <span class="chrome">${S.merchLabel||"Elegí tu merch"}</span></span></a>` : ""}
+        </div>`;
+      el.querySelector('#again').onclick=()=>{
+        st.step=1; st.serviceId=null; st.barberId=null; st.date=null; st.time=null;
+        st.client={name:"",phone:"",forOther:false}; render();
+      };
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>
