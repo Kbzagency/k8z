@@ -313,6 +313,8 @@
   /* ============================================================
      SLIDER de pilares (contenido inline)
      ============================================================ */
+  .psliders { display: grid; gap: clamp(24px, 4vw, 40px); margin: 8px auto 0; max-width: 720px; }
+  .psliders .slide { width: 100%; max-width: 100%; }
   .slider { position: relative; margin-top: 6px; }
   .slider-track {
     display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
@@ -787,11 +789,10 @@
       <h2>TRES PILARES,<br>UNA EXPERIENCIA.</h2>
       <p>Construimos el puente phygital entre marcas originales y personas reales. Cada pilar es una capa de valor verificable.</p>
     </div>
-    <div class="slider" data-reveal>
-      <button class="slider-arrow prev" id="slPrev" aria-label="Anterior">‹</button>
-      <div class="slider-track" id="sliderTrack"></div>
-      <button class="slider-arrow next" id="slNext" aria-label="Siguiente">›</button>
-      <div class="slider-dots" id="sliderDots"></div>
+    <div class="psliders" data-reveal>
+      <div class="pslider slider-track" data-key="experiencias"></div>
+      <div class="pslider slider-track" data-key="unicas"></div>
+      <div class="pslider slider-track" data-key="verificables"></div>
     </div>
   </div>
 </section>
@@ -1029,10 +1030,8 @@
 
   /* ---- Slider de pilares (contenido inline) ---- */
   (function buildSlider() {
-    var track = document.getElementById("sliderTrack");
-    var dotsC = document.getElementById("sliderDots");
-    if (!track) return;
-    var keys = ["experiencias", "unicas", "verificables"];
+    var conts = document.querySelectorAll(".pslider[data-key]");
+    if (!conts.length) return;
 
     function slideInner(d, key) {
       var h = "";
@@ -1058,8 +1057,9 @@
       return h;
     }
 
-    keys.forEach(function (key, idx) {
-      var d = DATA[key];
+    Array.prototype.forEach.call(conts, function (cont) {
+      var key = cont.getAttribute("data-key");
+      var d = DATA[key]; if (!d) return;
       var slide = document.createElement("div");
       slide.className = "slide fx-premium" + (key === "experiencias" ? " fx-gateway" : "");
       slide.style.setProperty("--accent", d.accent);
@@ -1067,27 +1067,8 @@
       slide.style.setProperty("--accent-rgb", d.accentRgb);
       slide.style.setProperty("--accent2-rgb", d.accent2Rgb);
       slide.innerHTML = slideInner(d, key);
-      track.appendChild(slide);
-      var dot = document.createElement("button");
-      dot.setAttribute("aria-label", "Ir a " + d.title);
-      if (idx === 0) dot.className = "active";
-      dot.addEventListener("click", function () { track.children[idx].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); });
-      dotsC.appendChild(dot);
+      cont.appendChild(slide);
     });
-
-    var slides = track.children, dots = dotsC.children;
-    function step(dir) { if (slides.length) track.scrollBy({ left: dir * (slides[0].offsetWidth + 18), behavior: "smooth" }); }
-    var prev = document.getElementById("slPrev"), next = document.getElementById("slNext");
-    if (prev) prev.addEventListener("click", function () { step(-1); });
-    if (next) next.addEventListener("click", function () { step(1); });
-    track.addEventListener("scroll", function () {
-      var center = track.scrollLeft + track.clientWidth / 2, best = 0, bd = Infinity;
-      for (var i = 0; i < slides.length; i++) {
-        var c = slides[i].offsetLeft + slides[i].offsetWidth / 2, dd = Math.abs(c - center);
-        if (dd < bd) { bd = dd; best = i; }
-      }
-      for (var j = 0; j < dots.length; j++) dots[j].classList.toggle("active", j === best);
-    }, { passive: true });
   })();
 
   var modal = document.getElementById("modal");
