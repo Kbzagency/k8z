@@ -435,6 +435,13 @@
   .cta-final .m-loading { justify-content: center; margin-top: 28px; }
   .cta-final h2 { font-family: var(--font-display); font-size: clamp(2.4rem, 8vw, 5rem); line-height:.95; letter-spacing:1px; margin-bottom: 16px; }
   .cta-final p { color: var(--text-dim); max-width: 50ch; margin: 0 auto 30px; }
+  .cta-final .cta-body { max-width: 560px; margin: 4px auto 26px; text-align: left; }
+  .cta-final .cta-body p { color: var(--text-dim); max-width: none; margin: 0 auto 14px; line-height: 1.6; }
+  .cta-final .cta-body .cta-lead { color: var(--text); font-weight: 500; font-size: clamp(1rem,2.4vw,1.15rem); }
+  .cta-final .cta-body b { color: var(--gold); }
+  .cta-final .cta-steps { list-style: none; display: grid; gap: 10px; margin-top: 4px; }
+  .cta-final .cta-steps li { display: flex; gap: 10px; color: var(--text); }
+  .cta-final .cta-steps li::before { content: "→"; color: var(--gold); }
   .cta-final .hero-cta { justify-content:center; }
 
   /* FOOTER */
@@ -802,6 +809,15 @@
   <div class="wrap">
     <div class="panel" data-reveal>
       <h2>HACELO<br>PHYGITAL.</h2>
+      <div class="cta-body" data-reveal>
+        <p class="cta-lead">Sumate a K8Z y conectá productos originales con personas auténticas.</p>
+        <p><b>Cómo trabajamos:</b> nos contás tu marca y tu objetivo, diseñamos la experiencia phygital con identidad verificable y tecnología K8Z, y la activamos junto a vos — del concepto al producto verificado en la calle.</p>
+        <ul class="cta-steps">
+          <li>Contanos tu marca y tu objetivo</li>
+          <li>Diseñamos la activación phygital con vos</li>
+          <li>Lanzamos con identidad K8Z verificable</li>
+        </ul>
+      </div>
       <p>¿Transformamos tu marca en Phygital?</p>
       <div class="hero-cta">
         <a href="https://wa.me/5491157564835?text=%C2%A1S%C3%AD%2C%20queremos%20ser%20el%20futuro!" class="btn btn-gold" target="_blank" rel="noopener noreferrer">SÍ, QUEREMOS SER EL FUTURO !</a>
@@ -1005,13 +1021,14 @@
     },
     verificables: {
       label: "03 / Verificables",
-      title: "VERIFICABLES",
+      title: "VERIFICABLES Y TRAZABLES",
       accent: "#8EE63C", accent2: "#1B9ED3", accentRgb: "142,230,60", accent2Rgb: "27,158,211",
       desc: [
-        "Sumate a K8Z y conectá productos originales con personas auténticas.",
-        "<b>Cómo trabajamos:</b> nos contás tu marca y tu objetivo, diseñamos la experiencia phygital con identidad verificable y tecnología K8Z, y la activamos junto a vos — del concepto al producto verificado en la calle."
+        "Cada producto K8Z nace con una <b>hoja de vida</b>: un pasaporte digital que guarda su origen, su autenticidad y toda su historia.",
+        "Cuando el producto cambia de manos, ese pasaporte se <b>traspasa al nuevo dueño</b>. La propiedad queda registrada y verificada — el objeto sigue vivo, contando de dónde viene y por dónde pasó.",
+        "Así activamos la <b>economía circular</b>: lo original circula, conserva su valor y no se falsifica. Cada reventa suma historia en vez de borrarla."
       ],
-      list: ["Contanos tu marca y tu objetivo", "Diseñamos la activación phygital con vos", "Lanzamos con identidad K8Z verificable"]
+      list: ["Hoja de vida digital en cada producto", "Traspaso de propiedad con pasaporte K8Z", "Trazabilidad total: del origen al dueño actual", "Economía circular: el valor se mantiene y crece"]
     }
   };
 
