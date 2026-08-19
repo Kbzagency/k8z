@@ -618,7 +618,8 @@
     background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent; animation: hueFlow 7s linear infinite;
   }
-  .scr-lead { color: var(--text-dim); font-size: clamp(1rem,2.4vw,1.2rem); line-height: 1.6; max-width: 62ch; margin-bottom: 50px; }
+  .scr-lead { color: var(--text-dim); font-size: clamp(1rem,2.4vw,1.2rem); line-height: 1.6; max-width: 62ch; margin-bottom: 24px; }
+  .info-soon { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; }
   .scr-block { margin-bottom: 44px; }
   .scr-block .mono { display: block; margin-bottom: 12px; }
   .scr-block h3 { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,2.4rem); letter-spacing: 1px; margin-bottom: 14px; }
@@ -760,9 +761,9 @@
       </h1>
 
       <nav class="hero-quicknav" data-reveal data-delay="80">
-        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Partners" target="_blank" rel="noopener noreferrer">PARTNERS</a>
-        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Marcas%20B2B2C" target="_blank" rel="noopener noreferrer">MARCAS B2B2C</a>
-        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20K8Z%20Original" target="_blank" rel="noopener noreferrer">K8Z ORIGINAL</a>
+        <a href="#" onclick="openInfo('partners'); return false;">PARTNERS</a>
+        <a href="#" onclick="openInfo('marcas'); return false;">MARCAS B2B2C</a>
+        <a href="#" onclick="openInfo('original'); return false;">K8Z ORIGINAL</a>
       </nav>
 
       <div class="hero-rule" data-reveal data-delay="120"></div>
@@ -911,6 +912,20 @@
     <div class="scr-cta">
       <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20ser%20co-fundador%20de%20experiencias" class="btn btn-gold" target="_blank" rel="noopener noreferrer">ESCRIBINOS →</a>
       <a href="#pilares" class="btn btn-ghost" onclick="closeScreen()">VER EXPERIENCIAS</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ PANTALLA INFO (Partners / Marcas / Original) ============================ -->
+<div class="screen" id="infoScreen" aria-hidden="true">
+  <button class="screen-close" onclick="closeInfo()" aria-label="Cerrar">×</button>
+  <div class="screen-inner">
+    <div class="scr-eyebrow"><span class="dot"></span><span class="mono" id="infoLabel">K8Z</span></div>
+    <h1 class="scr-title" id="infoTitle"></h1>
+    <div id="infoDesc"></div>
+    <div class="scr-cta">
+      <a href="#" class="btn btn-gold" id="infoCta" target="_blank" rel="noopener noreferrer">CONSULTAR POR WHATSAPP →</a>
+      <a href="#" class="btn btn-ghost" onclick="closeInfo(); return false;">VOLVER</a>
     </div>
   </div>
 </div>
@@ -1165,6 +1180,45 @@
     document.body.style.overflow = "";
   };
 
+  /* ---- Pantallas Partners / Marcas / K8Z Original ---- */
+  var infoEl = document.getElementById("infoScreen");
+  var INFO = {
+    partners: {
+      label: "K8Z · Partners", title: "PARTNERS",
+      desc: "Sumá tu marca, producto o negocio al ecosistema K8Z. Juntos diseñamos experiencias phygital, licenciamos productos originales y activamos comunidades reales alrededor de lo auténtico.",
+      cta: "Hola%20K8Z%2C%20quiero%20ser%20Partner"
+    },
+    marcas: {
+      label: "K8Z · Modelo", title: "MARCAS B2B2C",
+      desc: "El modelo K8Z conecta marcas (B2B) con sus audiencias (B2C) a través del producto. La marca habla directo con su comunidad y cada producto se vuelve un canal vivo de comunicación y valor.",
+      cta: "Hola%20K8Z%2C%20quiero%20info%20del%20modelo%20B2B2C"
+    },
+    original: {
+      label: "K8Z · Original", title: "K8Z ORIGINAL",
+      desc: "La línea propia de K8Z: productos phygital con identidad digital verificable, hoja de vida y trazabilidad total. Piezas originales e irrepetibles, con su pasaporte digital que las acompaña de por vida.",
+      cta: "Hola%20K8Z%2C%20quiero%20ver%20K8Z%20Original"
+    }
+  };
+  window.openInfo = function (key) {
+    var d = INFO[key]; if (!d) return false;
+    document.getElementById("infoLabel").textContent = d.label;
+    document.getElementById("infoTitle").textContent = d.title;
+    document.getElementById("infoDesc").innerHTML = '<p class="scr-lead">' + d.desc + '</p><p class="info-soon">Próximamente sumamos más contenido a esta sección.</p>';
+    document.getElementById("infoCta").href = "https://wa.me/5491157564835?text=" + d.cta;
+    infoEl.classList.add("open");
+    infoEl.setAttribute("aria-hidden", "false");
+    infoEl.scrollTop = 0;
+    document.body.style.overflow = "hidden";
+    navLinks.classList.remove("open");
+    navToggle.classList.remove("open");
+    return false;
+  };
+  window.closeInfo = function () {
+    infoEl.classList.remove("open");
+    infoEl.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
   window.openLegal = function (page) {
     var ov = document.getElementById("legal");
     var content = document.getElementById("legalContent");
@@ -1192,7 +1246,7 @@
   };
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { window.closePillar(); window.closeScreen(); window.closeLegal(); }
+    if (e.key === "Escape") { window.closePillar(); window.closeScreen(); window.closeLegal(); window.closeInfo(); }
   });
 })();
 </script>
