@@ -310,6 +310,65 @@
   .pillar .more { display:inline-flex; gap:8px; margin-top: 20px; font-family: var(--font-display); font-size: 17px; letter-spacing:1px; }
   .p1 .more { color: var(--magenta); } .p2 .more { color: var(--cyan); } .p3 .more { color: var(--green); }
 
+  /* ============================================================
+     SLIDER de pilares (contenido inline)
+     ============================================================ */
+  .slider { position: relative; margin-top: 6px; }
+  .slider-track {
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 8px 2px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .slider-track::-webkit-scrollbar { display: none; }
+  .slide {
+    scroll-snap-align: center; flex: 0 0 auto; width: min(90%, 620px); position: relative; overflow: hidden;
+    border-radius: var(--r-xl); padding: clamp(28px,5vw,48px);
+    border: 1px solid rgba(var(--accent-rgb),.5);
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgba(var(--accent2-rgb),.16), transparent 55%),
+      radial-gradient(120% 80% at 100% 100%, rgba(var(--accent-rgb),.14), transparent 55%),
+      var(--surface);
+    animation: premiumPulse 4.5s ease-in-out infinite;
+  }
+  .slide::after {
+    content:""; position:absolute; top:0; left:0; right:0; height:4px; z-index:3;
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent), var(--accent2));
+    background-size:250% 100%; animation: hueFlow 2.6s linear infinite;
+  }
+  .slide > * { position: relative; z-index: 1; }
+  .slide .slide-label { display:block; margin-bottom: 10px; }
+  .slide .slide-title { font-family: var(--font-display); font-size: clamp(1.8rem,6vw,2.8rem); letter-spacing:1px; margin-bottom: 12px; }
+  .slide .slide-desc p { color: var(--text-dim); line-height:1.65; margin-bottom: 12px; }
+  .slide .slide-desc b { color: var(--accent); font-weight:700; }
+  .slide .slide-list { list-style:none; display:grid; gap:10px; margin: 4px 0; }
+  .slide .slide-list li { display:flex; gap:10px; color: var(--text); }
+  .slide .slide-list li::before { content:"→"; color: var(--accent); }
+  .slide .m-ctas-title {
+    background: linear-gradient(90deg,var(--accent),var(--accent2),var(--accent)); background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    animation: hueFlow 4s linear infinite;
+  }
+  .slide .btn-gold { animation: premiumBtnPulse 2.6s ease-in-out infinite; }
+  .slide .m-ctas .btn { position: relative; overflow: hidden; }
+  .slide .m-ctas .btn::after {
+    content:""; position:absolute; top:0; left:-120%; width:55%; height:100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,.4), transparent);
+    transform: skewX(-20deg); animation: btnShine 3s ease-in-out infinite;
+  }
+  .slide.fx-gateway .m-nfc { display: flex; }
+  .slider-arrow {
+    position:absolute; top:42%; transform: translateY(-50%); z-index:4;
+    width:44px; height:44px; border-radius:50%; border:1px solid var(--line);
+    background: rgba(17,17,17,.82); backdrop-filter: blur(8px); color: var(--text);
+    font-size:24px; line-height:1; display:grid; place-items:center; cursor:pointer;
+  }
+  .slider-arrow.prev { left:-6px; } .slider-arrow.next { right:-6px; }
+  .slider-arrow:hover { border-color: var(--gold); color: var(--gold); }
+  .slider-dots { display:flex; justify-content:center; gap:10px; margin-top:20px; }
+  .slider-dots button { width:9px; height:9px; border-radius:50%; border:none; background: rgba(245,240,232,.25); cursor:pointer; padding:0; transition: width .25s ease, background .25s ease; }
+  .slider-dots button.active { width:26px; border-radius:5px; background: var(--gold); }
+  @media (max-width:880px){ .slider-arrow { display:none; } }
+
   /* CÓMO FUNCIONA */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 34px); position: relative; }
   .steps::before {
@@ -728,25 +787,11 @@
       <h2>TRES PILARES,<br>UNA EXPERIENCIA.</h2>
       <p>Construimos el puente phygital entre marcas originales y personas reales. Cada pilar es una capa de valor verificable.</p>
     </div>
-    <div class="pillars">
-      <button class="pillar p1" data-reveal onclick="selectPillar(this,'experiencias')">
-        <span class="num">01 / EXPERIENCIAS</span>
-        <h3>EXPERIENCIAS</h3>
-        <p>Activaciones phygital con las marcas de software y cultura que ya usás. Lo digital se vuelve tangible.</p>
-        <span class="more">Ver más →</span>
-      </button>
-      <button class="pillar p2" data-reveal data-delay="120" onclick="selectPillar(this,'unicas')">
-        <span class="num">02 / ÚNICAS</span>
-        <h3>ÚNICAS</h3>
-        <p>Branding y licencias de eventos irrepetibles. Cada momento, una pieza con su propia identidad.</p>
-        <span class="more">Ver más →</span>
-      </button>
-      <button class="pillar p3" data-reveal data-delay="240" onclick="selectPillar(this,'verificables')">
-        <span class="num">03 / VERIFICABLES</span>
-        <h3>VERIFICABLES</h3>
-        <p>Identidad digital verificada por marca. Sin falsos, sin dudas: autenticidad comprobable.</p>
-        <span class="more">Ver más →</span>
-      </button>
+    <div class="slider" data-reveal>
+      <button class="slider-arrow prev" id="slPrev" aria-label="Anterior">‹</button>
+      <div class="slider-track" id="sliderTrack"></div>
+      <button class="slider-arrow next" id="slNext" aria-label="Siguiente">›</button>
+      <div class="slider-dots" id="sliderDots"></div>
     </div>
   </div>
 </section>
@@ -981,6 +1026,69 @@
       ]
     }
   };
+
+  /* ---- Slider de pilares (contenido inline) ---- */
+  (function buildSlider() {
+    var track = document.getElementById("sliderTrack");
+    var dotsC = document.getElementById("sliderDots");
+    if (!track) return;
+    var keys = ["experiencias", "unicas", "verificables"];
+
+    function slideInner(d, key) {
+      var h = "";
+      if (d.media) h += '<div class="m-media"><img src="' + d.media + '" alt="" loading="lazy"></div>';
+      if (key === "experiencias") h += '<div class="m-nfc" aria-hidden="true"><span class="nfc-emit"><span class="nfc-ring"></span><span class="nfc-ring"></span><span class="nfc-chip"></span></span><span class="nfc-text">NFC · Puerta de entrada</span></div>';
+      h += '<span class="mono slide-label">' + d.label + '</span>';
+      h += '<h3 class="slide-title">' + d.title + '</h3>';
+      var paras = Array.isArray(d.desc) ? d.desc : (d.desc ? [d.desc] : []);
+      h += '<div class="slide-desc">';
+      paras.forEach(function (t) { h += "<p>" + t + "</p>"; });
+      h += "</div>";
+      if (d.list && d.list.length) { h += '<ul class="slide-list">'; d.list.forEach(function (t) { h += "<li>" + t + "</li>"; }); h += "</ul>"; }
+      if (d.highlight) h += '<div class="m-highlight">' + d.highlight + "</div>";
+      if (d.ctasTitle) h += '<div class="m-ctas-title">' + d.ctasTitle + "</div>";
+      if (d.ctas && d.ctas.length) {
+        h += '<div class="m-ctas">';
+        d.ctas.forEach(function (c, i) {
+          h += '<a class="btn ' + (i === 0 ? "btn-gold" : "btn-ghost") + '" href="' + c.href + '"' + (c.external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + c.label + "</a>";
+        });
+        h += "</div>";
+      }
+      if (d.loading) h += '<div class="m-loading"><span class="spinner"></span><span>' + d.loading + "</span></div>";
+      return h;
+    }
+
+    keys.forEach(function (key, idx) {
+      var d = DATA[key];
+      var slide = document.createElement("div");
+      slide.className = "slide fx-premium" + (key === "experiencias" ? " fx-gateway" : "");
+      slide.style.setProperty("--accent", d.accent);
+      slide.style.setProperty("--accent2", d.accent2);
+      slide.style.setProperty("--accent-rgb", d.accentRgb);
+      slide.style.setProperty("--accent2-rgb", d.accent2Rgb);
+      slide.innerHTML = slideInner(d, key);
+      track.appendChild(slide);
+      var dot = document.createElement("button");
+      dot.setAttribute("aria-label", "Ir a " + d.title);
+      if (idx === 0) dot.className = "active";
+      dot.addEventListener("click", function () { track.children[idx].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); });
+      dotsC.appendChild(dot);
+    });
+
+    var slides = track.children, dots = dotsC.children;
+    function step(dir) { if (slides.length) track.scrollBy({ left: dir * (slides[0].offsetWidth + 18), behavior: "smooth" }); }
+    var prev = document.getElementById("slPrev"), next = document.getElementById("slNext");
+    if (prev) prev.addEventListener("click", function () { step(-1); });
+    if (next) next.addEventListener("click", function () { step(1); });
+    track.addEventListener("scroll", function () {
+      var center = track.scrollLeft + track.clientWidth / 2, best = 0, bd = Infinity;
+      for (var i = 0; i < slides.length; i++) {
+        var c = slides[i].offsetLeft + slides[i].offsetWidth / 2, dd = Math.abs(c - center);
+        if (dd < bd) { bd = dd; best = i; }
+      }
+      for (var j = 0; j < dots.length; j++) dots[j].classList.toggle("active", j === best);
+    }, { passive: true });
+  })();
 
   var modal = document.getElementById("modal");
   window.selectPillar = function (el, key) {
