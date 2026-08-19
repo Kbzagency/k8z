@@ -204,8 +204,16 @@
     font-family: var(--font-display); font-size: 15px; letter-spacing: 1px;
     padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--line); color: var(--text-dim);
     transition: color .2s ease, border-color .2s ease;
+    animation: qnGlow 3s ease-in-out infinite;
   }
-  .hero-quicknav a:hover { color: var(--text); border-color: var(--gold); }
+  .hero-quicknav a:nth-child(1) { animation-delay: 0s; }
+  .hero-quicknav a:nth-child(2) { animation-delay: 1s; }
+  .hero-quicknav a:nth-child(3) { animation-delay: 2s; }
+  .hero-quicknav a:hover { color: var(--text); border-color: var(--gold); animation-play-state: paused; }
+  @keyframes qnGlow {
+    0%, 24%, 100% { border-color: var(--line); color: var(--text-dim); box-shadow: 0 0 0 rgba(201,168,76,0); }
+    8% { border-color: var(--gold); color: var(--text); box-shadow: 0 0 24px rgba(201,168,76,.5); }
+  }
   .hero-quicknav .qn-cta { background: linear-gradient(135deg, var(--gold), #e7cf8a); color: #1a1407; border-color: transparent; }
 
   .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin: 34px 0 14px; }
@@ -753,8 +761,8 @@
 
       <nav class="hero-quicknav" data-reveal data-delay="80">
         <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Partners" target="_blank" rel="noopener noreferrer">PARTNERS</a>
-        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Productos%20B2B" target="_blank" rel="noopener noreferrer">PRODUCTOS B2B</a>
-        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Productos%20B2C" target="_blank" rel="noopener noreferrer">PRODUCTOS B2C</a>
+        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Marcas" target="_blank" rel="noopener noreferrer">MARCAS</a>
+        <a href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20info%20sobre%20Originales%20K8Z" target="_blank" rel="noopener noreferrer">ORIGINALES K8Z</a>
       </nav>
 
       <div class="hero-rule" data-reveal data-delay="120"></div>
