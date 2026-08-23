@@ -199,20 +199,23 @@
   @keyframes hueFlow { from { background-position: 0% 50%; } to { background-position: 300% 50%; } }
   @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-  .hero-quicknav { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 4px; }
+  .hero-quicknav { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 4px; }
   .hero-quicknav a {
-    font-family: var(--font-display); font-size: 15px; letter-spacing: 1px;
-    padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--line); color: var(--text-dim);
-    transition: color .2s ease, border-color .2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px; color: var(--text);
+    padding: 12px 22px; border-radius: var(--r-md); border: 1px solid rgba(201,168,76,.5);
+    background: linear-gradient(135deg, rgba(201,168,76,.14), rgba(255,255,255,.02));
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     animation: qnGlow 3s ease-in-out infinite;
   }
+  .hero-quicknav a::after { content: "→"; font-size: 16px; opacity: .75; }
   .hero-quicknav a:nth-child(1) { animation-delay: 0s; }
   .hero-quicknav a:nth-child(2) { animation-delay: 1s; }
   .hero-quicknav a:nth-child(3) { animation-delay: 2s; }
-  .hero-quicknav a:hover { color: var(--text); border-color: var(--gold); animation-play-state: paused; }
+  .hero-quicknav a:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 28px rgba(201,168,76,.42); animation-play-state: paused; }
   @keyframes qnGlow {
-    0%, 24%, 100% { border-color: var(--line); color: var(--text-dim); box-shadow: 0 0 0 rgba(201,168,76,0); }
-    8% { border-color: var(--gold); color: var(--text); box-shadow: 0 0 24px rgba(201,168,76,.5); }
+    0%, 28%, 100% { border-color: rgba(201,168,76,.45); box-shadow: 0 0 0 rgba(201,168,76,0); transform: translateY(0); }
+    9% { border-color: var(--gold); box-shadow: 0 0 30px rgba(201,168,76,.6), 0 8px 22px rgba(201,168,76,.35); transform: translateY(-4px); }
   }
   .hero-quicknav .qn-cta { background: linear-gradient(135deg, var(--gold), #e7cf8a); color: #1a1407; border-color: transparent; }
 
