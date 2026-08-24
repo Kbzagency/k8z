@@ -59,6 +59,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
 
   html { scroll-behavior: smooth; }
 
@@ -471,6 +472,9 @@
   .cta-mail a { color: var(--gold); }
   .cta-proof { margin-top: 10px !important; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); }
   .cta-proof b { color: var(--gold); font-weight: 700; }
+  .info-form { max-width: 520px; margin: 6px 0 10px; }
+  .info-form button { justify-self: start; }
+  .info-formlead { color: var(--text); font-size: 1.05rem; line-height: 1.5; margin-bottom: 4px; }
   .cta-final .hero-cta { justify-content:center; }
 
   /* FOOTER */
@@ -979,6 +983,13 @@
     <div class="scr-eyebrow"><span class="dot"></span><span class="mono" id="infoLabel">K8Z</span></div>
     <h1 class="scr-title" id="infoTitle"></h1>
     <div id="infoDesc"></div>
+    <form id="infoForm" class="cta-form info-form" onsubmit="return sendPartner(event)" hidden>
+      <p class="info-formlead" id="infoFormLead"></p>
+      <input type="text" id="pfNombre" placeholder="Nombre" required autocomplete="name" />
+      <input type="text" id="pfIndustria" placeholder="Tu industria / rubro" required />
+      <textarea id="pfMsg" placeholder="Contanos qué hacés y tu idea" rows="3"></textarea>
+      <button type="submit" class="btn btn-gold">ESCRIBINOS POR WHATSAPP →</button>
+    </form>
     <div class="scr-cta">
       <a href="#" class="btn btn-gold" id="infoCta" target="_blank" rel="noopener noreferrer">CONSULTAR POR WHATSAPP →</a>
       <a href="#" class="btn btn-ghost" id="infoCta2" target="_blank" rel="noopener noreferrer" hidden></a>
@@ -1250,10 +1261,12 @@
           <div class="partner-info">
             <h4>Consulado Servicios Textiles <span>by Kattegat</span></h4>
             <p>Socio estratégico de K8Z y nuestro <b>enlace directo con el ecosistema de la moda</b>. A través de Consulado conectamos con marcas, productores y <b>clientes</b> de la industria textil, llevando la tecnología phygital, la trazabilidad y los pasaportes digitales K8Z al mundo de la indumentaria.</p>
+            <a class="brand-access" href="https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20la%20propuesta%20de%20Consulado" target="_blank" rel="noopener noreferrer">Conocer propuesta →</a>
           </div>
         </div>
       </div>`,
-      cta: "Hola%20K8Z%2C%20quiero%20ser%20Partner"
+      cta: "Hola%20K8Z%2C%20quiero%20ser%20Partner",
+      form: { lead: "¿Te interesa ser Partner de K8Z en tu industria? Contanos quién sos y qué hacés — y diseñamos juntos la experiencia phygital para tu mercado." }
     },
     marcas: {
       label: "K8Z · Moda", title: "MARCAS DE MODA",
@@ -1343,6 +1356,13 @@
     var cta2 = document.getElementById("infoCta2");
     if (d.cta2) { cta2.textContent = d.cta2.label; cta2.href = d.cta2.href; cta2.hidden = false; }
     else { cta2.hidden = true; }
+    var infoForm = document.getElementById("infoForm");
+    if (d.form) {
+      document.getElementById("infoFormLead").textContent = d.form.lead || "";
+      infoForm.hidden = false; infoCta.hidden = true;
+    } else {
+      infoForm.hidden = true; infoCta.hidden = false;
+    }
     infoEl.classList.add("open");
     infoEl.setAttribute("aria-hidden", "false");
     infoEl.scrollTop = 0;
@@ -1365,6 +1385,16 @@
     var subject = encodeURIComponent("Contacto K8Z — " + n);
     var body = encodeURIComponent("Nombre: " + n + "\nEmail: " + m + "\n\n" + msg);
     window.location.href = "mailto:soluciones@k8z.host?subject=" + subject + "&body=" + body;
+    return false;
+  };
+
+  window.sendPartner = function (e) {
+    e.preventDefault();
+    var n = (document.getElementById("pfNombre").value || "").trim();
+    var ind = (document.getElementById("pfIndustria").value || "").trim();
+    var msg = (document.getElementById("pfMsg").value || "").trim();
+    var text = "Hola K8Z, quiero ser Partner. Nombre: " + n + ". Industria: " + ind + "." + (msg ? " " + msg : "");
+    window.open("https://wa.me/5491157564835?text=" + encodeURIComponent(text), "_blank", "noopener");
     return false;
   };
 
