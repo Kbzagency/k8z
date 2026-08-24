@@ -1276,7 +1276,9 @@
         </div>
       </div>`,
       cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Salones",
-      cta2: { label: "CONOCER WORLD TALENTS →", href: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20World%20Talents" }
+      ctaLabel: "WT PARA SALONES →",
+      ctaHref: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20World%20Talents%20para%20Salones",
+      cta2: { label: "WT PARA BARBERÍAS →", href: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20World%20Talents%20para%20Barberias" }
     },
     regalos: {
       label: "K8Z · Regalos", title: "REGALOS",
@@ -1301,7 +1303,9 @@
     document.getElementById("infoLabel").textContent = d.label;
     document.getElementById("infoTitle").textContent = d.title;
     document.getElementById("infoDesc").innerHTML = '<p class="scr-lead">' + d.desc + '</p>' + (d.extra || '<p class="info-soon">Próximamente sumamos más contenido a esta sección.</p>');
-    document.getElementById("infoCta").href = "https://wa.me/5491157564835?text=" + d.cta;
+    var infoCta = document.getElementById("infoCta");
+    infoCta.textContent = d.ctaLabel || "CONSULTAR POR WHATSAPP →";
+    infoCta.href = d.ctaHref || ("https://wa.me/5491157564835?text=" + d.cta);
     var cta2 = document.getElementById("infoCta2");
     if (d.cta2) { cta2.textContent = d.cta2.label; cta2.href = d.cta2.href; cta2.hidden = false; }
     else { cta2.hidden = true; }
