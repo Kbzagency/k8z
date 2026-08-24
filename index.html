@@ -224,6 +224,11 @@
     9% { border-color: var(--gold); box-shadow: 0 0 30px rgba(201,168,76,.6), 0 8px 22px rgba(201,168,76,.35); transform: translateY(-4px); }
   }
   .hero-quicknav .qn-cta { background: linear-gradient(135deg, var(--gold), #e7cf8a); color: #1a1407; border-color: transparent; }
+  .hero-quicknav a.qn-soon { position: relative; border-style: dashed; }
+  .hero-quicknav a.qn-soon::after { content: "✦"; }
+  .qn-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; font-weight: 700;
+    padding: 2px 6px; border-radius: 999px; background: var(--gold); color: #1a1407; line-height: 1;
+    animation: premiumPulse 2.4s ease-in-out infinite; }
 
   .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin: 34px 0 14px; }
   .hero-rule { height: 4px; width: 120px; border-radius: 4px; background: linear-gradient(90deg, var(--purple), var(--magenta)); margin-bottom: 30px; }
@@ -306,6 +311,33 @@
   .sec-head h2 { font-family: var(--font-display); font-size: clamp(2.2rem, 8vw, 4.4rem); line-height: .95; letter-spacing: 1px; margin: 12px 0; }
   .sec-head p { color: var(--text-dim); font-size: clamp(0.95rem, 2vw, 1.05rem); max-width: 60ch; }
   .sec-head p b { color: var(--gold); font-weight: 700; }
+
+  /* CÓMO FUNCIONA */
+  #como-funciona { padding: clamp(60px, 9vw, 110px) 0; }
+  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 26px); counter-reset: hs; }
+  .how-step {
+    position: relative; padding: 34px 28px 30px; border-radius: var(--r-lg); overflow: hidden;
+    background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    border: 1px solid var(--line);
+    transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .how-step::before {
+    content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 100%;
+    background: linear-gradient(90deg, var(--gold), transparent); opacity: .0; transition: opacity .35s ease;
+  }
+  .how-step:hover { transform: translateY(-6px); border-color: rgba(201,168,76,.55); box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+  .how-step:hover::before { opacity: 1; }
+  .how-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 22px; letter-spacing: 1px;
+    width: 52px; height: 52px; border-radius: 50%; margin-bottom: 18px;
+    color: var(--gold); border: 1px solid rgba(201,168,76,.5);
+    background: radial-gradient(circle at 30% 30%, rgba(201,168,76,.18), rgba(201,168,76,.03));
+  }
+  .how-step h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.7rem); letter-spacing: .5px; margin-bottom: 10px; }
+  .how-step p { color: var(--text-dim); font-size: 1rem; line-height: 1.65; }
+  .how-step p b { color: var(--gold); font-weight: 700; }
+  @media (max-width: 880px) { .how-steps { grid-template-columns: 1fr; } }
 
   /* PILARES */
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 26px); }
@@ -817,7 +849,7 @@
         <a href="#" onclick="openInfo('marcas'); return false;">MODA</a>
         <a href="#" onclick="openInfo('regalos'); return false;">REGALOS</a>
         <a href="#" onclick="openInfo('salones'); return false;">SALONES</a>
-        <a href="#" onclick="openInfo('publicitar'); return false;">PUBLICITAR</a>
+        <a href="#" class="qn-soon" onclick="openInfo('publicitar'); return false;">PUBLICITAR<span class="qn-badge">PRONTO</span></a>
       </nav>
 
       <div class="hero-rule" data-reveal data-delay="120"></div>
@@ -861,6 +893,34 @@
       <div class="pslider slider-track" data-key="experiencias"></div>
       <div class="pslider slider-track" data-key="unicas"></div>
       <div class="pslider slider-track" data-key="verificables"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CÓMO FUNCIONA ============================ -->
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <span class="mono">Cómo funciona</span>
+      <h2>DEL PRODUCTO<br>AL PASAPORTE.</h2>
+      <p>Un producto físico, un chip <b>K8Z Rightful</b> y una capa digital que lo acompaña de por vida. Así de simple lo vive tu cliente:</p>
+    </div>
+    <div class="how-steps" data-reveal>
+      <div class="how-step">
+        <span class="how-num">01</span>
+        <h3>Comprás el producto</h3>
+        <p>Cada pieza legítima llega con su chip <b>K8Z Rightful</b> embebido — invisible, cifrado e irreproducible.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">02</span>
+        <h3>Lo escaneás con el celular</h3>
+        <p>Acercás tu teléfono al producto. En un segundo verifica su <b>autenticidad</b>: original, imposible de clonar.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">03</span>
+        <h3>Accedés a su pasaporte</h3>
+        <p>Se abre su <b>pasaporte digital</b>: origen, historia, comunidad y beneficios. Y si cambia de dueño, la trazabilidad viaja con él.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1294,11 +1354,6 @@
       cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Marcas%20de%20Moda",
       ctaLabel: "CONOCER W-T-M →",
       ctaHref: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20World%20Talents%20Moda"
-    },
-    original: {
-      label: "K8Z · Original", title: "K8Z ORIGINAL",
-      desc: "La línea propia de K8Z: productos phygital con identidad digital verificable, hoja de vida y trazabilidad total. Piezas originales e irrepetibles, con su pasaporte digital que las acompaña de por vida.",
-      cta: "Hola%20K8Z%2C%20quiero%20ver%20K8Z%20Original"
     },
     salones: {
       label: "K8Z · Salones", title: "SALONES",
