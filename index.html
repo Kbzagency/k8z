@@ -314,30 +314,71 @@
 
   /* CÓMO FUNCIONA */
   #como-funciona { padding: clamp(60px, 9vw, 110px) 0; }
-  .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 26px); counter-reset: hs; }
+  .how-layout { display: grid; grid-template-columns: minmax(240px, 340px) 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .how-steps { display: grid; grid-template-columns: 1fr; gap: clamp(14px, 2vw, 20px); }
   .how-step {
-    position: relative; padding: 34px 28px 30px; border-radius: var(--r-lg); overflow: hidden;
+    position: relative; display: flex; gap: 18px; align-items: flex-start;
+    padding: 22px 24px; border-radius: var(--r-lg); overflow: hidden;
     background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
     border: 1px solid var(--line);
     transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
   }
   .how-step::before {
-    content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 100%;
-    background: linear-gradient(90deg, var(--gold), transparent); opacity: .0; transition: opacity .35s ease;
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--gold), transparent); opacity: 0; transition: opacity .35s ease;
   }
-  .how-step:hover { transform: translateY(-6px); border-color: rgba(201,168,76,.55); box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+  .how-step:hover { transform: translateY(-4px); border-color: rgba(201,168,76,.55); box-shadow: 0 18px 40px rgba(0,0,0,.5); }
   .how-step:hover::before { opacity: 1; }
-  .how-num {
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: var(--font-display); font-size: 22px; letter-spacing: 1px;
-    width: 52px; height: 52px; border-radius: 50%; margin-bottom: 18px;
-    color: var(--gold); border: 1px solid rgba(201,168,76,.5);
+  .how-ico {
+    flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center;
+    width: 50px; height: 50px; border-radius: 14px; color: var(--gold);
+    border: 1px solid rgba(201,168,76,.5);
     background: radial-gradient(circle at 30% 30%, rgba(201,168,76,.18), rgba(201,168,76,.03));
   }
-  .how-step h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.7rem); letter-spacing: .5px; margin-bottom: 10px; }
-  .how-step p { color: var(--text-dim); font-size: 1rem; line-height: 1.65; }
+  .how-ico svg { width: 26px; height: 26px; }
+  .how-step h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.55rem); letter-spacing: .5px; margin-bottom: 6px; }
+  .how-step p { color: var(--text-dim); font-size: .98rem; line-height: 1.6; }
   .how-step p b { color: var(--gold); font-weight: 700; }
-  @media (max-width: 880px) { .how-steps { grid-template-columns: 1fr; } }
+
+  /* PHONE MOCKUP — PASAPORTE */
+  .how-phone { display: flex; justify-content: center; }
+  .phone {
+    position: relative; width: 100%; max-width: 300px; aspect-ratio: 300 / 610;
+    border-radius: 40px; padding: 14px; background: linear-gradient(160deg, #1c1c1c, #0c0c0c);
+    border: 1px solid rgba(245,240,232,.12);
+    box-shadow: 0 30px 70px rgba(0,0,0,.6), inset 0 0 0 2px rgba(0,0,0,.6), 0 0 60px rgba(201,168,76,.12);
+  }
+  .phone-notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 110px; height: 22px; border-radius: 999px; background: #000; z-index: 3; }
+  .phone-screen {
+    position: relative; height: 100%; border-radius: 28px; overflow: hidden; padding: 40px 16px 16px;
+    background: radial-gradient(120% 80% at 50% 0%, rgba(123,63,196,.22), rgba(10,10,10,.98) 60%);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .pp-top { display: flex; align-items: center; gap: 8px; }
+  .pp-logo { width: 22px; height: 22px; border-radius: 50%; background: var(--logo) center/contain no-repeat, #000; border: 1px solid rgba(245,240,232,.2); }
+  .pp-brand { font-family: var(--font-mono); font-size: 9px; letter-spacing: .18em; color: var(--text-dim); }
+  .pp-verified {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(142,230,60,.16), rgba(142,230,60,.03));
+    border: 1px solid rgba(142,230,60,.4);
+  }
+  .pp-check { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: var(--green); color: #0a0a0a; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+  .pp-verified b { display: block; font-family: var(--font-body); font-size: 11px; letter-spacing: .04em; color: var(--text); }
+  .pp-verified small { font-size: 9px; color: var(--text-dim); }
+  .pp-hero { flex: 1 1 auto; min-height: 90px; border-radius: 12px; border: 1px solid var(--line);
+    background: radial-gradient(circle at 50% 45%, rgba(201,168,76,.14), rgba(255,255,255,.02));
+    display: flex; align-items: center; justify-content: center; }
+  .pp-hero-logo { width: 74px; height: 74px; border-radius: 50%; background: var(--logo) center/contain no-repeat; filter: drop-shadow(0 0 14px rgba(201,168,76,.4)); }
+  .pp-rows { display: flex; flex-direction: column; gap: 7px; }
+  .pp-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; padding-bottom: 6px; border-bottom: 1px solid rgba(245,240,232,.07); }
+  .pp-row span { color: var(--text-dim); }
+  .pp-row b { color: var(--text); font-family: var(--font-body); font-weight: 600; }
+  .pp-cta { margin-top: 2px; text-align: center; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .14em; padding: 9px; border-radius: 10px; color: #1a1407; background: linear-gradient(135deg, var(--gold), #e7cf8a); }
+
+  @media (max-width: 880px) {
+    .how-layout { grid-template-columns: 1fr; gap: 36px; }
+    .how-phone { order: -1; }
+  }
 
   /* PILARES */
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 26px); }
@@ -905,21 +946,57 @@
       <h2>DEL PRODUCTO<br>AL PASAPORTE.</h2>
       <p>Un producto físico, un chip <b>K8Z Rightful</b> y una capa digital que lo acompaña de por vida. Así de simple lo vive tu cliente:</p>
     </div>
-    <div class="how-steps" data-reveal>
-      <div class="how-step">
-        <span class="how-num">01</span>
-        <h3>Comprás el producto</h3>
-        <p>Cada pieza legítima llega con su chip <b>K8Z Rightful</b> embebido — invisible, cifrado e irreproducible.</p>
+    <div class="how-layout">
+      <div class="how-phone" data-reveal>
+        <div class="phone">
+          <span class="phone-notch"></span>
+          <div class="phone-screen">
+            <div class="pp-top">
+              <span class="pp-logo"></span>
+              <span class="pp-brand">K8Z · PASAPORTE</span>
+            </div>
+            <div class="pp-verified">
+              <span class="pp-check">✓</span>
+              <div>
+                <b>PRODUCTO AUTÉNTICO</b>
+                <small>Verificado por K8Z Rightful</small>
+              </div>
+            </div>
+            <div class="pp-hero">
+              <span class="pp-hero-logo"></span>
+            </div>
+            <div class="pp-rows">
+              <div class="pp-row"><span>Producto</span><b>Edición Limitada #010</b></div>
+              <div class="pp-row"><span>Origen</span><b>Buenos Aires, AR</b></div>
+              <div class="pp-row"><span>Serie</span><b>K8Z-0007 / 100</b></div>
+              <div class="pp-row"><span>Propietario</span><b>Verificado ✓</b></div>
+            </div>
+            <div class="pp-cta">VER HISTORIA COMPLETA</div>
+          </div>
+        </div>
       </div>
-      <div class="how-step">
-        <span class="how-num">02</span>
-        <h3>Lo escaneás con el celular</h3>
-        <p>Acercás tu teléfono al producto. En un segundo verifica su <b>autenticidad</b>: original, imposible de clonar.</p>
-      </div>
-      <div class="how-step">
-        <span class="how-num">03</span>
-        <h3>Accedés a su pasaporte</h3>
-        <p>Se abre su <b>pasaporte digital</b>: origen, historia, comunidad y beneficios. Y si cambia de dueño, la trazabilidad viaja con él.</p>
+      <div class="how-steps" data-reveal>
+        <div class="how-step">
+          <span class="how-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </span>
+          <h3>Comprás el producto</h3>
+          <p>Cada pieza legítima llega con su chip <b>K8Z Rightful</b> embebido — invisible, cifrado e irreproducible.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/><path d="M2 9a4 4 0 0 1 0 6" opacity=".65"/><path d="M22 9a4 4 0 0 1 0 6" opacity=".65"/></svg>
+          </span>
+          <h3>Lo escaneás con el celular</h3>
+          <p>Acercás tu teléfono al producto. En un segundo verifica su <b>autenticidad</b>: original, imposible de clonar.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M6 16c.5-1.6 1.8-2.5 3-2.5s2.5.9 3 2.5"/><path d="M15 9h3"/><path d="M15 13h3"/></svg>
+          </span>
+          <h3>Accedés a su pasaporte</h3>
+          <p>Se abre su <b>pasaporte digital</b>: origen, historia, comunidad y beneficios. Y si cambia de dueño, la trazabilidad viaja con él.</p>
+        </div>
       </div>
     </div>
   </div>
