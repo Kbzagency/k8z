@@ -217,6 +217,7 @@
   .hero-quicknav a:nth-child(3) { animation-delay: 2s; }
   .hero-quicknav a:nth-child(4) { animation-delay: 3s; }
   .hero-quicknav a:nth-child(5) { animation-delay: 4s; }
+  .hero-quicknav a:nth-child(6) { animation-delay: 5s; }
   .hero-quicknav a:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 28px rgba(201,168,76,.42); animation-play-state: paused; }
   @keyframes qnGlow {
     0%, 28%, 100% { border-color: rgba(201,168,76,.45); box-shadow: 0 0 0 rgba(201,168,76,0); transform: translateY(0); }
@@ -815,6 +816,7 @@
         <a href="#" onclick="openInfo('marcas'); return false;">MODA</a>
         <a href="#" onclick="openInfo('regalos'); return false;">REGALOS</a>
         <a href="#" onclick="openInfo('salones'); return false;">SALONES</a>
+        <a href="#" onclick="openInfo('publicitar'); return false;">PUBLICITAR</a>
       </nav>
 
       <div class="hero-rule" data-reveal data-delay="120"></div>
@@ -1358,6 +1360,17 @@
       </div>`,
       cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Arte",
       cta2: { label: "CONOCER WORLD TALENTS ART →", href: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20World%20Talents%20Art" }
+    },
+    publicitar: {
+      label: "K8Z · Publicitar", title: "PUBLICITAR",
+      desc: "Convertí tus productos en un <b>canal de medios propio</b>. Cada pieza phygital con chip <b>K8Z Rightful</b> y su <b>pasaporte digital</b> es un punto de contacto directo con tu audiencia real y verificada — sin intermediarios ni algoritmos.",
+      extra: `<div class="info-body">
+        <p>Cada vez que alguien escanea tu producto, se abre un <b>espacio tuyo</b>: lanzamientos, contenido exclusivo, beneficios, colaboraciones. Publicitás donde más importa — en las manos de tus clientes más fieles.</p>
+        <p>¿Tenés una marca o querés anunciar dentro de nuestro ecosistema phygital? Sumamos <b>marcas aliadas</b> a experiencias que ya tienen comunidad activa.</p>
+      </div>`,
+      cta: "Hola%20K8Z%2C%20quiero%20info%20para%20Publicitar",
+      ctaLabel: "QUIERO PUBLICITAR →",
+      ctaHref: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20publicitar%20en%20el%20ecosistema%20phygital"
     }
   };
   window.openInfo = function (key) {
