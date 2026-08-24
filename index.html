@@ -199,7 +199,9 @@
   @keyframes hueFlow { from { background-position: 0% 50%; } to { background-position: 300% 50%; } }
   @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-  .hero-quicknav { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 4px; }
+  .hero-sub { color: var(--text-dim); font-size: clamp(1rem, 2.4vw, 1.2rem); line-height: 1.55; max-width: 48ch; margin: 18px 0 2px; }
+  .hero-sub b { color: var(--gold); font-weight: 700; }
+  .hero-quicknav { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 4px; }
   .hero-quicknav a {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px; color: var(--text);
@@ -800,6 +802,8 @@
         <span>CON PERSONAS</span>
         <span>AUTÉNTICAS.</span>
       </h1>
+
+      <p class="hero-sub" data-reveal data-delay="60">Autenticamos productos originales con nuestros chips <b>K8Z Rightful</b> y su <b>pasaporte digital</b>: únicos, trazables y con comunidad.</p>
 
       <nav class="hero-quicknav" data-reveal data-delay="80">
         <a href="#" onclick="openInfo('partners'); return false;">PARTNERS</a>
