@@ -650,6 +650,7 @@
   .info-body { margin: 0 0 22px; }
   .info-body p { color: var(--text-dim); font-size: 1.02rem; line-height: 1.7; margin-bottom: 14px; }
   .info-body b { color: var(--gold); font-weight: 700; }
+  .info-body p.pub-soon { font-family: var(--font-display); font-size: clamp(1.8rem,6vw,2.8rem); letter-spacing: 2px; color: var(--gold); line-height: 1; margin: 6px 0 20px; text-shadow: 0 0 26px rgba(201,168,76,.45); animation: premiumPulse 2.4s ease-in-out infinite; }
   .info-verticals { list-style: none; display: grid; gap: 8px; margin: 10px 0 0; }
   .info-verticals li { display: flex; gap: 10px; color: var(--text); font-weight: 500; }
   .info-verticals li::before { content: "→"; color: var(--gold); }
@@ -1363,14 +1364,15 @@
     },
     publicitar: {
       label: "K8Z · Publicitar", title: "PUBLICITAR",
-      desc: "Convertí tus productos en un <b>canal de medios propio</b>. Cada pieza phygital con chip <b>K8Z Rightful</b> y su <b>pasaporte digital</b> es un punto de contacto directo con tu audiencia real y verificada — sin intermediarios ni algoritmos.",
+      desc: "Gestionamos un <b>espacio publicitario nuevo</b> para tu marca y elegimos <b>el mejor lugar del mundo</b> donde estar presentes.",
       extra: `<div class="info-body">
-        <p>Cada vez que alguien escanea tu producto, se abre un <b>espacio tuyo</b>: lanzamientos, contenido exclusivo, beneficios, colaboraciones. Publicitás donde más importa — en las manos de tus clientes más fieles.</p>
-        <p>¿Tenés una marca o querés anunciar dentro de nuestro ecosistema phygital? Sumamos <b>marcas aliadas</b> a experiencias que ya tienen comunidad activa.</p>
+        <p class="pub-soon">MUY PRONTO !</p>
+        <p>Si ya te llegó una <b>invitación temprana</b>, aprovechala: los <b>primeros 10 founders</b> del espacio tendrán excelentes beneficios y quedarán en la historia.</p>
+        <p>Si te interesa saber más, escribinos al WhatsApp.</p>
       </div>`,
       cta: "Hola%20K8Z%2C%20quiero%20info%20para%20Publicitar",
-      ctaLabel: "QUIERO PUBLICITAR →",
-      ctaHref: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20publicitar%20en%20el%20ecosistema%20phygital"
+      ctaLabel: "ESCRIBINOS POR WHATSAPP →",
+      ctaHref: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20saber%20mas%20sobre%20el%20espacio%20publicitario"
     }
   };
   window.openInfo = function (key) {
