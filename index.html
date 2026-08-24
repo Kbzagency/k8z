@@ -206,13 +206,14 @@
     padding: 12px 22px; border-radius: var(--r-md); border: 1px solid rgba(201,168,76,.5);
     background: linear-gradient(135deg, rgba(201,168,76,.14), rgba(255,255,255,.02));
     transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    animation: qnGlow 4s ease-in-out infinite;
+    animation: qnGlow 5s ease-in-out infinite;
   }
   .hero-quicknav a::after { content: "→"; font-size: 16px; opacity: .75; }
   .hero-quicknav a:nth-child(1) { animation-delay: 0s; }
   .hero-quicknav a:nth-child(2) { animation-delay: 1s; }
   .hero-quicknav a:nth-child(3) { animation-delay: 2s; }
   .hero-quicknav a:nth-child(4) { animation-delay: 3s; }
+  .hero-quicknav a:nth-child(5) { animation-delay: 4s; }
   .hero-quicknav a:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 28px rgba(201,168,76,.42); animation-play-state: paused; }
   @keyframes qnGlow {
     0%, 28%, 100% { border-color: rgba(201,168,76,.45); box-shadow: 0 0 0 rgba(201,168,76,0); transform: translateY(0); }
@@ -791,6 +792,7 @@
         <a href="#" onclick="openInfo('marcas'); return false;">MODA</a>
         <a href="#" onclick="openInfo('salones'); return false;">SALONES</a>
         <a href="#" onclick="openInfo('regalos'); return false;">REGALOS</a>
+        <a href="#" onclick="openInfo('arte'); return false;">ARTE</a>
       </nav>
 
       <div class="hero-rule" data-reveal data-delay="120"></div>
@@ -1296,6 +1298,11 @@
       </div>`,
       cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Regalos",
       cta2: { label: "CONOCER MEMORIA EN COPA →", href: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20Memoria%20en%20Copa" }
+    },
+    arte: {
+      label: "K8Z · Arte", title: "ARTE",
+      desc: "Arte phygital: obras originales con <b>pasaporte digital</b> que certifica su autenticidad, autoría y procedencia. Conectamos artistas, galerías y coleccionistas — la obra física con su capa digital verificable y su historia para siempre.",
+      cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Arte"
     }
   };
   window.openInfo = function (key) {
