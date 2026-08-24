@@ -945,6 +945,7 @@
     <div id="infoDesc"></div>
     <div class="scr-cta">
       <a href="#" class="btn btn-gold" id="infoCta" target="_blank" rel="noopener noreferrer">CONSULTAR POR WHATSAPP →</a>
+      <a href="#" class="btn btn-ghost" id="infoCta2" target="_blank" rel="noopener noreferrer" hidden></a>
       <a href="#" class="btn btn-ghost" onclick="closeInfo(); return false;">VOLVER</a>
     </div>
   </div>
@@ -1266,7 +1267,8 @@
           </div>
         </div>
       </div>`,
-      cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Regalos"
+      cta: "Hola%20K8Z%2C%20quiero%20info%20de%20Regalos",
+      cta2: { label: "CONOCER MEMORIA EN COPA →", href: "https://wa.me/5491157564835?text=Hola%20K8Z%2C%20quiero%20conocer%20Memoria%20en%20Copa" }
     }
   };
   window.openInfo = function (key) {
@@ -1275,6 +1277,9 @@
     document.getElementById("infoTitle").textContent = d.title;
     document.getElementById("infoDesc").innerHTML = '<p class="scr-lead">' + d.desc + '</p>' + (d.extra || '<p class="info-soon">Próximamente sumamos más contenido a esta sección.</p>');
     document.getElementById("infoCta").href = "https://wa.me/5491157564835?text=" + d.cta;
+    var cta2 = document.getElementById("infoCta2");
+    if (d.cta2) { cta2.textContent = d.cta2.label; cta2.href = d.cta2.href; cta2.hidden = false; }
+    else { cta2.hidden = true; }
     infoEl.classList.add("open");
     infoEl.setAttribute("aria-hidden", "false");
     infoEl.scrollTop = 0;
